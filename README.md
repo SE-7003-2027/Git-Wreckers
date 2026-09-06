@@ -2,11 +2,11 @@
 
 ## Integrantes
 
-- Jiménez Ramírez Miguel Angel
-- Mociño Navarrete Naomi Yatana
-- Hernández Hernández Jimmy
-- Espinoza Hernández Reyna Guadalupe
-- González Contreras Alair
+- Miguel Jiménez
+- Naomi Mociño
+- Jimmy Hernández
+- Reyna Espinoza
+- Alair González
 
 # Sistema de recomendación para libros/comics/manga
 
@@ -54,28 +54,6 @@ Durante el análisis del proyecto se investigarán diferentes estrategias de rec
 
 La estrategia final será seleccionada considerando el alcance del proyecto y los datos disponibles.
 
-## Historias de usuario
-
-### HU01 — Buscar obras
-
-Como usuario, quiero buscar libros, cómics y manga para encontrar obras que sean de mi interés.
-
-### HU02 — Calificar una obra
-
-Como usuario, quiero calificar una obra que haya leído para registrar mis preferencias.
-
-### HU03 — Recibir recomendaciones
-
-Como usuario, quiero recibir recomendaciones personalizadas para descubrir nuevas obras que puedan ser de mi interés.
-
-### HU04 — Consultar historial
-
-Como usuario, quiero consultar las obras que he calificado para revisar mis preferencias anteriores.
-
-### HU05 — Consultar información
-
-Como usuario, quiero consultar la información de una obra antes de decidir si quiero leerla.
-
 ## Metodología de trabajo
 
 El proyecto se desarrollará utilizando la metodología Scrum.
@@ -89,6 +67,12 @@ El trabajo se dividirá en Sprints, donde cada Sprint tendrá un objetivo y un c
 - **Developers:** Integrantes encargados del análisis, diseño, desarrollo y pruebas del sistema.
 
 Los roles podrán ajustarse conforme avance el proyecto.
+
+### Organización del trabajo
+
+- Las historias de usuario y las tareas se documentarán en [GitHub Issues](https://github.com/SE-7003-2027/Git-Wreckers/issues).
+- La planeación y el seguimiento de los sprints se gestionarán en [GitHub Projects](https://github.com/SE-7003-2027/Git-Wreckers/projects).
+- La documentación complementaria del proyecto se mantendrá en la [Wiki](https://github.com/SE-7003-2027/Git-Wreckers/wiki).
 
 ## Tecnologías
 
@@ -106,44 +90,8 @@ Entre las alternativas a evaluar se encuentran:
 
 La fuente definitiva se seleccionará después de evaluar la disponibilidad, calidad y condiciones de uso de los datos.
 
-
-## Product Backlog inicial
-
-Las principales funcionalidades consideradas para el proyecto son:
-
-1. Registro e inicio de sesión.
-2. Búsqueda de obras.
-3. Consulta de información.
-4. Calificación de obras.
-5. Historial de obras calificadas.
-6. Sistema de recomendaciones.
-7. Consulta de recomendaciones.
-8. Interfaz web.
-
-El Product Backlog será refinado y priorizado conforme se definan los requerimientos del sistema
-
-## Sprint 1 — Análisis y planificación
-
-### Objetivo
-
-Definir el problema, alcance y requerimientos del sistema, así como establecer un diseño inicial que permita comenzar su desarrollo.
-
-### Actividades
-
-- Definir el problema y alcance.
-- Identificar usuarios.
-- Definir requerimientos.
-- Elaborar historias de usuario.
-- Investigar estrategias de recomendación.
-- Investigar fuentes de datos.
-- Seleccionar tecnologías.
-- Diseñar la arquitectura inicial.
-- Diseñar el modelo preliminar de base de datos.
-- Elaborar bocetos de la interfaz.
-
 ## Estado del proyecto
 
 Actualmente el proyecto se encuentra en la etapa inicial de análisis y planificación.
 
 Las instrucciones de instalación y ejecución serán agregadas cuando exista una primera versión funcional.
-
