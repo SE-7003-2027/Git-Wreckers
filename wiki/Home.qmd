@@ -11,6 +11,7 @@ Desarrollar un sistema web que permita a los usuarios descubrir libros, cómics 
 ## Documentación
 
 - [PRD](PRD)
+- [SPIKE: fuentes de datos y APIs](Fuentes-de-datos-y-APIs)
 - [RFC](RFC)
 - [Arquitectura](Arquitectura)
 - [Guía de colaboración](Guia-de-colaboracion)
