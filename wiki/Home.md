@@ -13,6 +13,7 @@ y recomendaciones.
 ## Documentación
 
 - [PRD](PRD)
+- [SPIKE: algoritmos de recomendación](Algoritmos-de-recomendacion)
 - [RFC](RFC)
 - [Arquitectura](Arquitectura)
 - [Guía de colaboración](Guia-de-colaboracion)
