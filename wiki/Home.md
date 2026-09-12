@@ -13,6 +13,7 @@ y recomendaciones.
 ## Documentación
 
 - [PRD](PRD)
+- [SPIKE: fuentes de datos y APIs](Fuentes-de-datos-y-APIs)
 - [RFC](RFC)
 - [Arquitectura](Arquitectura)
 - [Guía de colaboración](Guia-de-colaboracion)
