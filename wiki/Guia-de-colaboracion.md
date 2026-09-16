@@ -1,2 +1,482 @@
 
 
+# title: “Guía de colaboración y Pull Requests”
+
+# Guía de colaboración y Pull Requests
+
+## 1. Objetivo
+
+Esta guía establece las reglas básicas para trabajar en el repositorio
+de Git-Wreckers.
+
+El objetivo es mantener el proyecto organizado, facilitar el trabajo
+entre los integrantes y evitar problemas al integrar cambios en la rama
+principal.
+
+------------------------------------------------------------------------
+
+## 2. Repositorio
+
+El proyecto utiliza Git y GitHub para el control de versiones.
+
+La rama principal del proyecto es:
+
+``` text
+main
+```
+
+La rama `main` contiene los cambios que ya fueron revisados y
+considerados aptos para integrarse al proyecto.
+
+------------------------------------------------------------------------
+
+## 3. Ramas
+
+Los cambios no deben realizarse directamente sobre `main`.
+
+Para cada tarea se deberá crear una rama nueva a partir de la versión
+más reciente de `main`.
+
+El nombre de la rama deberá indicar el tipo de trabajo que se está
+realizando.
+
+Se utilizarán principalmente los siguientes prefijos:
+
+``` text
+feature/
+fix/
+docs/
+spike/
+```
+
+### Ejemplos
+
+Para una nueva funcionalidad:
+
+``` text
+feature/busqueda-obras
+```
+
+Para corregir un error:
+
+``` text
+fix/error-login
+```
+
+Para documentación:
+
+``` text
+docs/actualizar-prd
+```
+
+Para una investigación:
+
+``` text
+spike/evaluacion-api
+```
+
+------------------------------------------------------------------------
+
+## 4. Crear una rama
+
+Antes de crear una rama nueva se debe actualizar la rama `main`.
+
+``` bash
+git switch main
+git pull
+```
+
+Después se crea la rama correspondiente:
+
+``` bash
+git switch -c feature/nombre-de-la-tarea
+```
+
+Por ejemplo:
+
+``` bash
+git switch -c docs/arquitectura-inicial
+```
+
+------------------------------------------------------------------------
+
+## 5. Commits
+
+Los commits deben representar cambios concretos y fáciles de
+identificar.
+
+Se recomienda utilizar el siguiente formato:
+
+``` text
+tipo: descripción breve
+```
+
+Algunos tipos utilizados en el proyecto son:
+
+``` text
+feat
+fix
+docs
+refactor
+test
+chore
+```
+
+### Ejemplos
+
+``` text
+feat: agregar búsqueda de obras
+```
+
+``` text
+fix: corregir validación del formulario
+```
+
+``` text
+docs: actualizar arquitectura del sistema
+```
+
+``` text
+test: agregar pruebas para recomendaciones
+```
+
+La descripción debe ser breve y explicar qué cambio se realizó.
+
+Se deben evitar mensajes demasiado generales como:
+
+``` text
+cambios
+```
+
+``` text
+arreglos
+```
+
+``` text
+avance
+```
+
+------------------------------------------------------------------------
+
+## 6. Pull Requests
+
+Una vez terminada una tarea, los cambios deberán enviarse al repositorio
+remoto:
+
+``` bash
+git push -u origin nombre-de-la-rama
+```
+
+Después se deberá crear un Pull Request desde la rama de trabajo hacia:
+
+``` text
+main
+```
+
+El Pull Request debe explicar brevemente:
+
+- Qué se modificó.
+- Por qué se realizó el cambio.
+- Qué Issue está relacionado.
+- Si existen consideraciones importantes para revisar.
+
+------------------------------------------------------------------------
+
+## 7. Relación con Issues
+
+Cada Pull Request debe estar relacionado con el Issue correspondiente
+cuando sea posible.
+
+Por ejemplo:
+
+``` text
+Issue #8
+Definir arquitectura inicial
+```
+
+puede tener un Pull Request relacionado con:
+
+``` text
+docs: definir arquitectura inicial
+```
+
+En la descripción del Pull Request se puede utilizar:
+
+``` text
+Closes #8
+```
+
+para indicar que el Issue debe cerrarse automáticamente cuando el Pull
+Request sea integrado.
+
+------------------------------------------------------------------------
+
+## 8. Revisiones
+
+La rama `main` está protegida.
+
+Los cambios deben pasar por un Pull Request antes de integrarse a
+`main`.
+
+Actualmente se requieren:
+
+- Pull Request.
+- 3 aprobaciones.
+- Resolución de conversaciones de revisión.
+- Aprobación de la versión más reciente del cambio.
+
+Esto permite que los cambios sean revisados antes de formar parte de la
+rama principal.
+
+------------------------------------------------------------------------
+
+## 9. Proceso de revisión
+
+El flujo general será:
+
+``` text
+Issue
+  │
+  ▼
+Crear rama
+  │
+  ▼
+Realizar cambios
+  │
+  ▼
+Crear commits
+  │
+  ▼
+Push
+  │
+  ▼
+Pull Request
+  │
+  ▼
+Revisión
+  │
+  ├── Cambios solicitados
+  │       │
+  │       └──► modificar rama
+  │
+  └── Aprobado
+          │
+          ▼
+       Merge
+          │
+          ▼
+         main
+```
+
+Si durante la revisión se solicitan cambios, estos deben realizarse
+sobre la misma rama del Pull Request.
+
+No es necesario crear otro Pull Request para cada corrección.
+
+------------------------------------------------------------------------
+
+## 10. Antes de crear un Pull Request
+
+Antes de abrir un Pull Request se recomienda comprobar:
+
+``` bash
+git status
+```
+
+y revisar los cambios:
+
+``` bash
+git diff
+```
+
+También se deben ejecutar las pruebas disponibles para la parte del
+proyecto modificada.
+
+Si existen archivos generados automáticamente, temporales o cambios que
+no pertenecen a la tarea, no deben incluirse en el commit.
+
+------------------------------------------------------------------------
+
+## 11. Actualizar una rama
+
+Si `main` recibió cambios mientras se estaba trabajando en una rama,
+primero se debe evaluar si es necesario actualizarla antes de continuar.
+
+Una forma sencilla de hacerlo es:
+
+``` bash
+git switch main
+git pull
+git switch nombre-de-la-rama
+```
+
+La estrategia concreta para integrar los cambios de `main` se decidirá
+de acuerdo con las necesidades del proyecto.
+
+------------------------------------------------------------------------
+
+## 12. Conflictos
+
+Si Git detecta un conflicto durante una actualización o integración,
+primero se debe identificar qué archivos están involucrados:
+
+``` bash
+git status
+```
+
+Después se deben revisar las partes marcadas por Git y resolverlas
+manualmente.
+
+Una vez resuelto el conflicto:
+
+``` bash
+git add archivo
+```
+
+y posteriormente se continúa con el proceso correspondiente.
+
+Los conflictos importantes deben comunicarse al equipo para evitar
+perder cambios de otros integrantes.
+
+------------------------------------------------------------------------
+
+## 13. Trabajo con Issues y GitHub Projects
+
+Las tareas del proyecto se gestionarán mediante GitHub Issues.
+
+Los Issues representan unidades concretas de trabajo y deberán incluir,
+cuando sea necesario:
+
+- Descripción.
+- Objetivo.
+- Criterios de aceptación.
+- Responsable.
+- Etiquetas.
+- Relación con otros Issues.
+
+GitHub Projects se utilizará para visualizar el estado de las tareas.
+
+Los estados principales son:
+
+``` text
+Backlog
+Todo
+In Progress
+In Review
+Done
+```
+
+------------------------------------------------------------------------
+
+## 14. Documentación
+
+La documentación del proyecto se mantendrá principalmente dentro de la
+Wiki.
+
+Los documentos fuente se encuentran en:
+
+``` text
+wiki/
+```
+
+Los archivos `.qmd` se utilizan como fuente de documentación y Quarto
+genera las versiones `.md`.
+
+Para generar la documentación se utiliza:
+
+``` bash
+./scripts/build-wiki.sh
+```
+
+No se deben modificar manualmente los archivos `.md` generados si el
+contenido correspondiente se encuentra en un archivo `.qmd`.
+
+------------------------------------------------------------------------
+
+## 15. Trabajo en equipo
+
+Cada integrante debe procurar trabajar en su propia rama para reducir
+conflictos.
+
+Antes de comenzar una tarea se recomienda:
+
+1.  Revisar el Issue correspondiente.
+2.  Verificar si alguien más está trabajando en la misma parte.
+3.  Actualizar `main`.
+4.  Crear una rama específica.
+5.  Realizar cambios pequeños y relacionados con la tarea.
+6.  Crear el Pull Request al terminar.
+
+Si una tarea requiere modificar archivos que otra persona está
+utilizando, se recomienda coordinarse antes de realizar cambios
+importantes.
+
+------------------------------------------------------------------------
+
+## 16. Buenas prácticas
+
+Se recomienda:
+
+- Mantener los commits pequeños y relacionados con una sola tarea.
+- Utilizar nombres descriptivos para las ramas.
+- Revisar los cambios antes de hacer commit.
+- No subir archivos temporales.
+- No subir contraseñas, tokens o claves privadas.
+- Mantener actualizada la documentación.
+- Ejecutar las pruebas antes de crear un Pull Request.
+- Revisar los Pull Requests de otros integrantes.
+- Mantener una comunicación clara sobre cambios que puedan afectar otras
+  partes del proyecto.
+
+------------------------------------------------------------------------
+
+## 17. Resumen del flujo de trabajo
+
+El flujo recomendado para una tarea es:
+
+``` bash
+git switch main
+git pull
+
+git switch -c tipo/nombre-de-la-tarea
+
+# realizar cambios
+
+git status
+git diff
+
+git add archivos
+
+git commit -m "tipo: descripción"
+
+git push -u origin tipo/nombre-de-la-tarea
+```
+
+Después:
+
+``` text
+Crear Pull Request
+       ↓
+Seleccionar main como destino
+       ↓
+Agregar revisores
+       ↓
+Esperar revisiones
+       ↓
+Resolver comentarios
+       ↓
+Obtener aprobaciones
+       ↓
+Merge
+       ↓
+Eliminar rama si ya no es necesaria
+```
+
+------------------------------------------------------------------------
+
+## 18. Estado del documento
+
+**Estado:** Primera versión.
+
+Esta guía puede actualizarse conforme se establezcan nuevas reglas de
+colaboración o se incorporen nuevas herramientas al proyecto.
