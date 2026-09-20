@@ -1,2 +1,54 @@
 /.quarto/
 **/*.quarto_ipynb
+
+# Python y herramientas de desarrollo
+backend/.venv/
+.venv/
+venv/
+**/__pycache__/
+**/*.py[cod]
+*.pyo
+*.egg-info/
+pip-wheel-metadata/
+build/
+dist/
+
+# Pruebas, cobertura y analizadores
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Bases de datos y archivos de ejecución locales
+backend/data/*.sqlite3
+backend/data/*.sqlite
+backend/data/*.db
+*.log
+*.tmp
+*.temp
+
+# Node.js y administradores de paquetes
+frontend/node_modules/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Configuración local y secretos
+backend/.env
+.env
+.env.*
+!.env.example
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos temporales de editores
+*.swp
+*.swo
+*~
