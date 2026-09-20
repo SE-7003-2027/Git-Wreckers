@@ -1,15 +1,44 @@
-**Versión:** 1.0<br>
-**Estado:** Propuesto<br>
-**Última actualización:** 2026-09-11<br>
-**Responsable:** Equipo Git Wreckers
+
+
+## title: “PRD - Product Requirements Document”
+
+**Versión:** 1.1<br> **Estado:** Propuesto<br> **Última actualización:**
+2026-09-19<br> **Responsable:** Equipo Git Wreckers
 
 ## 1. Resumen
 
-Git-Wreckers es una aplicación web que centraliza información de libros, cómics y manga para ayudar a las personas a descubrir obras de su interés y conocer si existe información de disponibilidad en México. Las recomendaciones se generarán a partir de las características de las obras y de las preferencias y valoraciones del usuario.
+Git-Wreckers es una aplicación web que centraliza información de libros,
+cómics y manga para ayudar a las personas a descubrir obras de su
+interés y conocer si existe información de disponibilidad en México.
+
+Las recomendaciones se generarán a partir de las características de las
+obras y de las preferencias y valoraciones del usuario.
+
+El sistema no busca convertirse en una tienda ni sustituir a las
+plataformas que proporcionan la información original. Su objetivo es
+facilitar la búsqueda, exploración y descubrimiento de contenido desde
+un mismo lugar.
+
+------------------------------------------------------------------------
 
 ## 2. Problema y oportunidad
 
-La oferta de libros, cómics y manga es amplia y la información se encuentra distribuida en distintas fuentes. Esto dificulta comparar obras, descubrir contenido nuevo y saber qué opciones están relacionadas con México. El sistema ofrecerá un punto de consulta único y recomendaciones personalizadas, sin convertirse en una tienda ni sustituir a las fuentes originales.
+La oferta de libros, cómics y manga es amplia y la información se
+encuentra distribuida en distintas fuentes.
+
+Esto dificulta:
+
+- Encontrar obras relacionadas con los intereses de una persona.
+- Comparar diferentes obras.
+- Descubrir contenido nuevo.
+- Consultar información de diferentes fuentes desde un mismo lugar.
+- Identificar información relacionada con la disponibilidad en México.
+
+El sistema ofrecerá un punto de consulta único y recomendaciones
+personalizadas utilizando la información disponible de diferentes
+fuentes.
+
+------------------------------------------------------------------------
 
 ## 3. Objetivos y métricas
 
@@ -17,29 +46,54 @@ La oferta de libros, cómics y manga es amplia y la información se encuentra di
 
 - Permitir consultar y buscar obras de las tres categorías.
 - Ayudar a descubrir obras mediante exploración y recomendaciones.
-- Aprovechar las valoraciones para mejorar la relevancia de las recomendaciones.
-- Mostrar la fuente y la fecha de actualización de la información cuando sea posible.
+- Aprovechar las valoraciones para mejorar la relevancia de las
+  recomendaciones.
+- Mostrar la fuente y la fecha de actualización de la información cuando
+  sea posible.
+- Proporcionar una interfaz sencilla y accesible.
+- Diseñar el sistema de manera que permita incorporar nuevas fuentes de
+  información en el futuro.
 
 ### Indicadores de éxito
 
-- Al menos 90% de las búsquedas de prueba devuelven resultados o un mensaje claro de “sin resultados”.
-- Una búsqueda o consulta responde en un máximo de 3 segundos en condiciones normales, excluyendo caídas de fuentes externas.
-- El 100% de las recomendaciones mostradas incluye la obra y la razón o características que la relacionan con el usuario, cuando esa información esté disponible.
-- Se registran usuarios, valoraciones y consultas para evaluar adopción y uso.
+- Al menos 90% de las búsquedas de prueba devuelven resultados o un
+  mensaje claro de “sin resultados”.
+- Una búsqueda o consulta responde en un máximo de 3 segundos en
+  condiciones normales, excluyendo caídas de fuentes externas.
+- El 100% de las recomendaciones mostradas incluye la obra y la razón o
+  características que la relacionan con el usuario, cuando esa
+  información esté disponible.
+- Las valoraciones realizadas por los usuarios se almacenan
+  correctamente.
+- Las funcionalidades principales del MVP pueden demostrarse mediante
+  sus criterios de aceptación.
+
+------------------------------------------------------------------------
 
 ## 4. Usuarios y casos de uso
 
 ### Usuario visitante
 
-Puede explorar y buscar obras, consultar sus datos y revisar la información de disponibilidad. No puede guardar valoraciones ni recibir recomendaciones basadas en su historial.
+Puede explorar y buscar obras, consultar sus datos y revisar la
+información de disponibilidad.
+
+No puede guardar valoraciones ni recibir recomendaciones basadas en su
+historial.
 
 ### Usuario registrado
 
-Puede iniciar sesión, valorar obras y consultar recomendaciones personalizadas basadas en sus preferencias e historial.
+Puede iniciar sesión, valorar obras y consultar recomendaciones
+personalizadas basadas en sus preferencias e historial.
 
 ### Administrador o responsable de datos
 
-Rol técnico u operativo que supervisa la actualización de fuentes y la calidad de los datos. Este rol queda fuera del flujo principal de la primera versión y se detallará posteriormente.
+Rol técnico u operativo que supervisa la actualización de fuentes y la
+calidad de los datos.
+
+Este rol queda fuera del flujo principal del MVP y se detallará
+posteriormente si resulta necesario.
+
+------------------------------------------------------------------------
 
 ## 5. Alcance
 
@@ -47,133 +101,394 @@ Rol técnico u operativo que supervisa la actualización de fuentes y la calidad
 
 - Aplicación web responsive.
 - Registro, inicio y cierre de sesión.
-- Búsqueda por título y, cuando los datos lo permitan, autor, género, categoría y etiquetas.
+- Búsqueda por título y, cuando los datos lo permitan, autor, género,
+  categoría y etiquetas.
 - Filtros y ordenamiento para explorar resultados.
-- Ficha de cada obra con título, tipo, autoría, descripción, género/etiquetas, imagen y fuente cuando estén disponibles.
+- Ficha de cada obra con título, tipo, autoría, descripción,
+  género/etiquetas, imagen y fuente cuando estén disponibles.
 - Valoración de una obra por usuario registrado.
 - Historial de valoraciones del usuario.
 - Recomendaciones personalizadas y explicación básica de su relación.
-- Información de disponibilidad o enlaces de consulta para México cuando la fuente lo proporcione.
+- Información de disponibilidad o enlaces de consulta para México cuando
+  la fuente lo proporcione.
+- Integración con fuentes externas mediante componentes separados de la
+  lógica principal.
 
+### Fuera de alcance para la primera versión
 
-## 6. Requisitos funcionales
+- Venta, renta, pagos o distribución física/digital.
+- Reseñas extensas, comentarios sociales o mensajería.
+- Garantizar disponibilidad, precio o inventario en tiempo real.
+- Crear o modificar contenido en las plataformas de origen.
+- Algoritmos avanzados de aprendizaje automático antes de contar con
+  datos suficientes.
+- Funciones administrativas avanzadas.
+- Sistema social entre usuarios.
 
-Cada requisito es verificable y debe implementarse sin depender de una fuente única.
+------------------------------------------------------------------------
+
+## 6. MVP y prioridades
+
+La primera versión funcional del sistema se enfocará en permitir que una
+persona consulte obras, registre sus preferencias o valoraciones y
+reciba recomendaciones básicas.
+
+### Prioridad alta
+
+Las siguientes funcionalidades forman parte del núcleo del MVP:
+
+- Registro e inicio de sesión.
+- Búsqueda de obras.
+- Consulta de información de una obra.
+- Exploración y filtros básicos.
+- Valoración de obras.
+- Almacenamiento de valoraciones.
+- Recomendaciones iniciales basadas en contenido.
+
+### Prioridad media
+
+Estas funcionalidades complementan el MVP y podrán implementarse
+conforme avance el desarrollo:
+
+- Historial de valoraciones.
+- Información de disponibilidad para México.
+- Explicación de las recomendaciones.
+- Integración de múltiples fuentes.
+- Mejoras en filtros y ordenamiento.
+
+### Prioridad posterior
+
+Estas funcionalidades podrán implementarse después de contar con una
+primera versión funcional:
+
+- Filtrado colaborativo.
+- Sistema híbrido de recomendaciones.
+- Personalización avanzada.
+- Funciones administrativas.
+- Mejoras avanzadas de disponibilidad.
+- Características sociales.
+
+------------------------------------------------------------------------
+
+## 7. Requisitos funcionales
+
+Cada requisito es verificable y debe implementarse sin depender de una
+fuente única.
 
 ### RF01 - Registro
 
-El sistema deberá permitir crear una cuenta con los datos definidos por el equipo, validar los campos obligatorios y rechazar un correo ya registrado.
+El sistema deberá permitir crear una cuenta con los datos definidos por
+el equipo, validar los campos obligatorios y rechazar un correo ya
+registrado.
 
 ### RF02 - Autenticación
 
-El sistema deberá permitir iniciar y cerrar sesión, informar credenciales inválidas sin revelar cuál dato falló y restringir las funciones privadas a usuarios autenticados.
+El sistema deberá permitir iniciar y cerrar sesión, informar
+credenciales inválidas sin revelar cuál dato falló y restringir las
+funciones privadas a usuarios autenticados.
 
 ### RF03 - Búsqueda
 
-El sistema deberá buscar obras por texto y mostrar resultados paginados o con carga progresiva. Cada resultado deberá indicar título y tipo de obra como mínimo.
+El sistema deberá buscar obras por texto y mostrar resultados paginados
+o con carga progresiva.
+
+Cada resultado deberá indicar título y tipo de obra como mínimo.
 
 ### RF04 - Filtrado y exploración
 
-El sistema deberá permitir explorar obras sin escribir una consulta y aplicar filtros disponibles, conservando una indicación clara de los filtros activos.
+El sistema deberá permitir explorar obras sin escribir una consulta y
+aplicar los filtros disponibles, conservando una indicación clara de los
+filtros activos.
 
 ### RF05 - Detalle de obra
 
-El sistema deberá mostrar una ficha de detalle y diferenciar los datos faltantes de los datos confirmados. La ficha deberá identificar la fuente de información.
+El sistema deberá mostrar una ficha de detalle y diferenciar los datos
+faltantes de los datos confirmados.
+
+La ficha deberá identificar la fuente de información cuando esté
+disponible.
 
 ### RF06 - Disponibilidad en México
 
-Cuando exista información de una fuente configurada, el sistema deberá mostrarla junto con su fuente y fecha de consulta; si no existe, deberá mostrar “información no disponible” y no inferir disponibilidad.
+Cuando exista información de una fuente configurada, el sistema deberá
+mostrarla junto con su fuente y fecha de consulta.
+
+Si no existe información, deberá mostrar “información no disponible” y
+no inferir disponibilidad.
 
 ### RF07 - Valoración
 
-Un usuario autenticado deberá poder asignar una valoración dentro de la escala definida por el equipo, modificarla y verla asociada a la obra. Solo deberá existir una valoración vigente por usuario y obra.
+Un usuario autenticado deberá poder asignar una valoración dentro de la
+escala definida por el equipo, modificarla y verla asociada a la obra.
+
+Solo deberá existir una valoración vigente por usuario y obra.
 
 ### RF08 - Historial
 
-El sistema deberá permitir al usuario consultar sus obras valoradas y la fecha de su última valoración.
+El sistema deberá permitir al usuario consultar sus obras valoradas y la
+fecha de su última valoración.
 
 ### RF09 - Recomendaciones
 
-El sistema deberá generar una lista de recomendaciones considerando, cuando existan, valoraciones, preferencias, categorías, géneros, autores o etiquetas. Cada recomendación deberá excluir obras ya valoradas por el usuario o indicarlo claramente.
+El sistema deberá generar una lista de recomendaciones considerando,
+cuando existan, valoraciones, preferencias, categorías, géneros, autores
+o etiquetas.
+
+Las recomendaciones deberán evitar repetir obras que el usuario ya haya
+valorado o indicar claramente cuando se incluyan.
 
 ### RF10 - Estados y errores
 
-El sistema deberá mostrar estados diferenciados para carga, ausencia de resultados, error de conexión y fuente no disponible, ofreciendo reintentar cuando corresponda.
+El sistema deberá mostrar estados diferenciados para carga, ausencia de
+resultados, error de conexión y fuente no disponible, ofreciendo
+reintentar cuando corresponda.
 
 ### RF11 - Privacidad de cuenta
 
-El sistema deberá permitir consultar y eliminar las valoraciones e información de cuenta conforme a las reglas de privacidad que defina el equipo.
+El sistema deberá permitir consultar y eliminar las valoraciones e
+información de cuenta conforme a las reglas de privacidad que defina el
+equipo.
 
-## 7. Requisitos no funcionales
+------------------------------------------------------------------------
 
-- **RNF01 Usabilidad:** los flujos de búsqueda, detalle, valoración y recomendaciones deberán ser comprensibles en una interfaz responsive.
-- **RNF02 Rendimiento:** el 95% de las búsquedas deberá responder en hasta 3 segundos bajo la carga objetivo definida por el equipo.
-- **RNF03 Seguridad:** las contraseñas no deberán almacenarse en texto plano; las sesiones y datos privados deberán protegerse contra acceso no autorizado.
-- **RNF04 Disponibilidad y resiliencia:** una falla de una fuente externa no deberá impedir consultar datos almacenados de otras fuentes ni romper la interfaz.
-- **RNF05 Accesibilidad:** la interfaz deberá usar HTML semántico, navegación por teclado, contraste suficiente y textos alternativos para imágenes relevantes.
-- **RNF06 Mantenibilidad:** requisitos, decisiones técnicas e integraciones deberán documentarse; el código deberá contar con pruebas para los flujos principales.
-- **RNF07 Escalabilidad:** la integración de una nueva fuente deberá poder realizarse mediante un adaptador sin reescribir la lógica de recomendaciones.
-- **RNF08 Observabilidad:** deberán registrarse errores técnicos y tiempos de respuesta sin almacenar contraseñas ni datos sensibles innecesarios.
+## 8. Requisitos no funcionales
 
-## 8. Reglas de negocio y supuestos
+- **RNF01 Usabilidad:** los flujos de búsqueda, detalle, valoración y
+  recomendaciones deberán ser comprensibles en una interfaz responsive.
+- **RNF02 Rendimiento:** el 95% de las búsquedas deberá responder en
+  hasta 3 segundos bajo la carga objetivo definida por el equipo.
+- **RNF03 Seguridad:** las contraseñas no deberán almacenarse en texto
+  plano; las sesiones y datos privados deberán protegerse contra acceso
+  no autorizado.
+- **RNF04 Disponibilidad y resiliencia:** una falla de una fuente
+  externa no deberá impedir consultar datos almacenados de otras fuentes
+  ni romper la interfaz.
+- **RNF05 Accesibilidad:** la interfaz deberá usar HTML semántico,
+  navegación por teclado, contraste suficiente y textos alternativos
+  para imágenes relevantes.
+- **RNF06 Mantenibilidad:** requisitos, decisiones técnicas e
+  integraciones deberán documentarse; el código deberá contar con
+  pruebas para los flujos principales.
+- **RNF07 Escalabilidad:** la integración de una nueva fuente deberá
+  poder realizarse mediante un adaptador sin reescribir la lógica de
+  recomendaciones.
+- **RNF08 Observabilidad:** deberán registrarse errores técnicos y
+  tiempos de respuesta sin almacenar contraseñas ni datos sensibles
+  innecesarios.
 
-- Una obra puede pertenecer a libro, cómic o manga; la categoría debe mostrarse explícitamente.
-- Los datos de fuentes externas pueden estar incompletos, duplicados o desactualizados y deberán normalizarse antes de mostrarse.
-- La disponibilidad en México significa únicamente que una fuente reporta información relacionada con México; no constituye una garantía de inventario.
-- Las recomendaciones deben poder explicar, al menos de forma básica, qué preferencia o característica las motivó.
-- Para un usuario sin valoraciones suficientes se mostrará una lista general o de obras populares, claramente identificada como no personalizada.
-- La escala de valoración, la retención de cuenta y la fuente inicial de datos son decisiones pendientes del equipo y deberán registrarse antes de implementar los módulos correspondientes.
+------------------------------------------------------------------------
 
-## 9. Historias de usuario y criterios de aceptación
+## 9. Reglas de negocio y supuestos
+
+- Una obra puede pertenecer a libro, cómic o manga; la categoría debe
+  mostrarse explícitamente.
+- Los datos de fuentes externas pueden estar incompletos, duplicados o
+  desactualizados y deberán normalizarse antes de mostrarse.
+- La disponibilidad en México significa únicamente que una fuente
+  reporta información relacionada con México; no constituye una garantía
+  de inventario.
+- Las recomendaciones deben poder explicar, al menos de forma básica,
+  qué preferencia o característica las motivó.
+- Para un usuario sin valoraciones suficientes se mostrará una lista
+  general o de obras populares, claramente identificada como no
+  personalizada.
+- Una obra podrá recibir como máximo una valoración vigente por usuario.
+- La información obtenida de fuentes externas deberá conservar su
+  procedencia cuando sea necesario para identificar su origen.
+- Las fuentes externas no deberán ser consideradas como disponibles
+  permanentemente; el sistema deberá contemplar errores o interrupciones
+  de estos servicios.
+
+------------------------------------------------------------------------
+
+## 10. Historias de usuario y criterios de aceptación
 
 ### HU01 - Buscar contenido
 
-Como visitante, quiero buscar libros, cómics o manga para encontrar obras de mi interés.
+Como visitante, quiero buscar libros, cómics o manga para encontrar
+obras de mi interés.
 
-**Criterios:** dado un término válido, se muestran coincidencias con título y tipo; ante cero coincidencias se muestra un mensaje claro; ante un error de fuente se muestra el estado de error sin perder la consulta.
+**Criterios:**
+
+- Dado un término válido, se muestran coincidencias con título y tipo.
+- Ante cero coincidencias se muestra un mensaje claro.
+- Ante un error de fuente se muestra el estado de error sin perder la
+  consulta.
 
 ### HU02 - Consultar información
 
-Como visitante, quiero consultar la ficha de una obra para conocer sus características y su disponibilidad en México.
+Como visitante, quiero consultar la ficha de una obra para conocer sus
+características y su disponibilidad en México.
 
-**Criterios:** la ficha muestra los campos disponibles, distingue campos faltantes, identifica la fuente y muestra disponibilidad solo cuando está respaldada por datos.
+**Criterios:**
+
+- La ficha muestra los campos disponibles.
+- Se distinguen los campos faltantes.
+- Se identifica la fuente cuando esté disponible.
+- La disponibilidad solo se muestra cuando está respaldada por datos.
 
 ### HU03 - Valorar contenido
 
-Como usuario registrado, quiero valorar una obra para expresar mi opinión y mejorar mis recomendaciones.
+Como usuario registrado, quiero valorar una obra para expresar mi
+opinión y mejorar mis recomendaciones.
 
-**Criterios:** un visitante recibe una indicación para iniciar sesión; un usuario autenticado puede guardar y modificar una valoración; no se crean duplicados para la misma obra.
+**Criterios:**
+
+- Un visitante recibe una indicación para iniciar sesión.
+- Un usuario autenticado puede guardar y modificar una valoración.
+- No se crean valoraciones duplicadas para la misma obra y usuario.
 
 ### HU04 - Recibir recomendaciones
 
-Como usuario registrado, quiero recibir recomendaciones basadas en mis intereses para descubrir contenido nuevo.
+Como usuario registrado, quiero recibir recomendaciones basadas en mis
+intereses para descubrir contenido nuevo.
 
-**Criterios:** se muestra una lista; cada elemento incluye una razón o característica relacionada; si no hay historial suficiente se muestra una lista general y una indicación para valorar obras.
+**Criterios:**
+
+- Se muestra una lista de recomendaciones.
+- Cada elemento incluye una razón o característica relacionada cuando
+  esté disponible.
+- Si no hay historial suficiente, se muestra una lista general y una
+  indicación para valorar obras.
 
 ### HU05 - Explorar contenido
 
-Como visitante, quiero explorar obras por categoría y filtros para descubrir contenido sin conocer un título.
+Como visitante, quiero explorar obras por categoría y filtros para
+descubrir contenido sin conocer un título.
 
-**Criterios:** se puede iniciar la exploración sin consulta; los filtros activos son visibles; quitar filtros actualiza los resultados.
+**Criterios:**
 
-## 10. Dependencias, restricciones y riesgos
+- Se puede iniciar la exploración sin consulta.
+- Los filtros activos son visibles.
+- Quitar filtros actualiza los resultados.
 
-Las dependencias principales son la selección de tecnologías, una fuente de datos con permisos de uso, límites de APIs y la definición de disponibilidad para México. Los riesgos son cambios de API, datos incompletos, baja cantidad inicial de valoraciones y complejidad del recomendador. Mitigaciones: adaptadores por fuente, caché y manejo de fallos, datos de respaldo y comenzar con recomendación basada en contenido.
+------------------------------------------------------------------------
 
-## 11. Trazabilidad y definición de terminado
+## 11. Arquitectura y decisiones actuales
 
-Cada requisito deberá vincularse con una issue o historia de usuario y sus pruebas. Una funcionalidad se considerará terminada cuando esté implementada, probada, documentada, revisada por otro integrante y pueda demostrarse con sus criterios de aceptación.
+A partir de las investigaciones realizadas sobre tecnologías, fuentes de
+datos, algoritmos de recomendación y arquitectura, se establece la
+siguiente propuesta inicial:
 
-## 12. Pendientes
+- El frontend será una aplicación web responsive.
+- La implementación inicial del frontend utilizará HTML, CSS y
+  JavaScript.
+- El backend utilizará Python como tecnología inicial.
+- La comunicación entre frontend y backend se realizará mediante una API
+  HTTP/REST.
+- Se utilizará una base de datos relacional.
+- El sistema de recomendaciones comenzará utilizando filtrado basado en
+  contenido.
+- La arquitectura separará frontend, backend, base de datos y fuentes
+  externas.
+- Las integraciones con fuentes externas deberán mantenerse separadas de
+  la lógica principal del sistema.
+- La arquitectura deberá permitir incorporar nuevas fuentes sin
+  modificar significativamente el sistema de recomendaciones.
 
-- Seleccionar fuente(s) de datos y confirmar sus licencias y límites.
-- Definir escala de valoración y carga objetivo.
-- Seleccionar algoritmo inicial de recomendación.
-- Definir políticas de privacidad y recuperación de cuenta.
-- Desglosar las historias en issues técnicas y priorizarlas en el backlog.
+La selección definitiva de algunos componentes técnicos podrá
+modificarse durante la implementación si existe una justificación
+documentada.
 
-## 13. Historial del documento
+------------------------------------------------------------------------
 
-| Versión | Fecha | Cambios |
-|---|---|---|
-| 1.0 | 2026-09-11 | Primera versión formal con alcance, requisitos verificables, reglas de negocio, criterios de aceptación y pendientes. |
+## 12. Dependencias, restricciones y riesgos
+
+Las dependencias principales son:
+
+- Selección definitiva de las fuentes de datos.
+- Permisos y licencias de uso de las fuentes.
+- Límites de las APIs.
+- Disponibilidad y calidad de los datos.
+- Selección definitiva de algunas tecnologías.
+- Definición del modelo de datos.
+- Disponibilidad de valoraciones para el sistema de recomendaciones.
+
+Los principales riesgos son:
+
+- Cambios en APIs externas.
+- Datos incompletos o inconsistentes.
+- Duplicación de información entre fuentes.
+- Baja cantidad inicial de valoraciones.
+- Problemas de disponibilidad de servicios externos.
+- Complejidad del sistema de recomendaciones.
+
+### Mitigaciones
+
+Para reducir estos riesgos se propone:
+
+- Utilizar adaptadores independientes para cada fuente.
+- Implementar manejo de errores y fallos de servicios externos.
+- Normalizar los datos antes de utilizarlos.
+- Utilizar almacenamiento local o caché cuando resulte conveniente.
+- Comenzar con un sistema de recomendación basado en contenido.
+- Incorporar algoritmos más complejos únicamente cuando exista
+  suficiente información para evaluarlos.
+
+------------------------------------------------------------------------
+
+## 13. Trazabilidad y definición de terminado
+
+Cada requisito deberá vincularse con una Issue o historia de usuario y
+sus pruebas correspondientes.
+
+Una funcionalidad se considerará terminada cuando:
+
+1.  Esté implementada.
+2.  Cumpla sus criterios de aceptación.
+3.  Tenga las pruebas correspondientes.
+4.  Esté documentada cuando sea necesario.
+5.  Haya sido revisada mediante Pull Request.
+6.  Se encuentre integrada correctamente en `main`.
+
+La relación entre requisitos, Issues y Pull Requests permitirá mantener
+trazabilidad durante el desarrollo.
+
+------------------------------------------------------------------------
+
+## 14. Pendientes
+
+Los principales pendientes del proyecto son:
+
+- Confirmar las fuentes de datos definitivas.
+- Confirmar las licencias y límites de las APIs seleccionadas.
+- Definir la escala definitiva de valoración.
+- Definir el modelo de datos.
+- Definir los endpoints principales de la API.
+- Implementar y validar el algoritmo inicial de recomendación.
+- Definir las políticas de privacidad y recuperación de cuenta.
+- Desglosar las historias de usuario en Issues técnicas.
+- Priorizar las tareas del MVP.
+- Definir la estrategia definitiva de despliegue.
+- Establecer las pruebas automatizadas para los componentes principales.
+
+------------------------------------------------------------------------
+
+## 15. Organización del trabajo
+
+El desarrollo se organizará mediante GitHub Issues, GitHub Projects y
+Milestones.
+
+Las Issues representarán tareas concretas del proyecto, mientras que las
+Milestones agruparán tareas relacionadas con una etapa o objetivo mayor.
+
+El GitHub Project permitirá visualizar el estado de las tareas mediante
+estados como:
+
+text Backlog Todo In Progress In Review Done \`\`\`
+
+El desarrollo se realizará mediante ramas independientes y Pull Requests
+hacia main, siguiendo la guía de colaboración del proyecto.
+
+------------------------------------------------------------------------
+
+## 16. Estado del documento
+
+**Estado:** Propuesto.
+
+Esta versión actualiza el PRD inicial con las conclusiones obtenidas
+durante la investigación de fuentes de datos, algoritmos de
+recomendación, tecnologías y arquitectura.
+
+El documento continuará evolucionando conforme se tomen decisiones
+durante la implementación del MVP.
