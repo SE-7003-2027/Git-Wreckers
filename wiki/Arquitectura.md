@@ -32,7 +32,7 @@ El sistema estará organizado principalmente en cuatro componentes:
   obtener información sobre libros, cómics y manga.
 
 La comunicación principal entre frontend y backend se realizará mediante
-HTTP utilizando una API.
+HTTP utilizando una API REST.
 
 La arquitectura general propuesta es:
 
@@ -48,7 +48,7 @@ La arquitectura general propuesta es:
                          │   JavaScript    │
                          └────────┬────────┘
                                   │
-                              HTTP / API
+                              HTTP / REST
                                   │
                                   ▼
                          ┌─────────────────┐
@@ -71,9 +71,12 @@ La arquitectura general propuesta es:
            └─────────────────┘
 ```
 
-El diagrama representa la comunicación principal, aunque algunos
-componentes pueden comunicarse entre sí de acuerdo con las necesidades
-de cada funcionalidad.
+El diagrama representa la comunicación principal del sistema. El backend
+funcionará como intermediario entre el frontend, la base de datos, las
+fuentes externas y el sistema de recomendaciones.
+
+La separación de componentes permitirá modificar o sustituir partes
+específicas del sistema sin afectar innecesariamente al resto.
 
 ------------------------------------------------------------------------
 
@@ -82,16 +85,11 @@ de cada funcionalidad.
 El frontend será responsable de proporcionar la interfaz gráfica del
 sistema.
 
-En la primera versión se utilizarán:
+La propuesta actual contempla el uso de:
 
 - HTML para la estructura de las páginas.
 - CSS para los estilos.
-- JavaScript para la interacción y lógica del lado del cliente.
-
-La evaluación de tecnologías realizada previamente consideró también el
-uso de frameworks como React. Por el momento se plantea comenzar con
-tecnologías web básicas para mantener una estructura sencilla y
-facilitar el desarrollo inicial.
+- JavaScript para la interacción y comportamiento de la interfaz.
 
 El frontend tendrá, entre otras, las siguientes funciones:
 
@@ -104,7 +102,11 @@ El frontend tendrá, entre otras, las siguientes funciones:
 - Interacción con el sistema de calificaciones.
 
 El frontend se comunicará con el backend mediante peticiones HTTP a los
-endpoints correspondientes.
+endpoints correspondientes de la API REST.
+
+Por el momento no se establece un framework obligatorio para el
+frontend. Se podrán incorporar herramientas adicionales si las
+necesidades del proyecto lo justifican.
 
 ------------------------------------------------------------------------
 
@@ -113,9 +115,7 @@ endpoints correspondientes.
 El backend será responsable de implementar la lógica principal del
 sistema.
 
-La tecnología propuesta inicialmente es **Python**, debido a que puede
-utilizarse tanto para el desarrollo de la API como para implementar
-posteriormente los algoritmos de recomendación.
+La tecnología propuesta actualmente es **Python**.
 
 Entre sus responsabilidades estarán:
 
@@ -127,10 +127,10 @@ Entre sus responsabilidades estarán:
 - Generar recomendaciones.
 - Validar información recibida desde el frontend.
 - Manejar errores.
-- Proporcionar una API para el frontend.
+- Proporcionar una API REST para el frontend.
 
-La comunicación entre frontend y backend utilizará una API basada en
-HTTP.
+El framework específico que se utilizará para desarrollar la API todavía
+está pendiente de definición.
 
 ------------------------------------------------------------------------
 
@@ -139,7 +139,7 @@ HTTP.
 El sistema necesitará una base de datos para almacenar información que
 debe mantenerse entre sesiones.
 
-Se propone utilizar una base de datos relacional.
+Se propone utilizar una **base de datos relacional**.
 
 Entre los datos que podrían almacenarse se encuentran:
 
@@ -152,11 +152,19 @@ Entre los datos que podrían almacenarse se encuentran:
 - Información relacionada con disponibilidad.
 - Datos necesarios para generar recomendaciones.
 
-La tecnología específica de base de datos se seleccionará considerando
-los resultados de la evaluación tecnológica y las necesidades finales
-del sistema.
+La tecnología específica de base de datos todavía debe seleccionarse.
 
-Inicialmente se consideran opciones como PostgreSQL, MySQL o SQLite.
+Entre las alternativas consideradas se encuentran PostgreSQL, MySQL y
+SQLite.
+
+La decisión final se tomará considerando:
+
+- Compatibilidad con el backend.
+- Facilidad de desarrollo.
+- Documentación.
+- Rendimiento.
+- Escalabilidad.
+- Necesidades del modelo de datos.
 
 ------------------------------------------------------------------------
 
@@ -178,13 +186,22 @@ Estas fuentes podrían proporcionar información como:
 
 El backend será el encargado de comunicarse con estas fuentes externas.
 
+Las fuentes externas se mantendrán separadas de la lógica principal del
+sistema para facilitar su sustitución o ampliación en el futuro.
+
 Los datos obtenidos podrán ser procesados y almacenados localmente
-cuando sea necesario para reducir dependencias externas y facilitar las
+cuando sea necesario para reducir dependencias externas y facilitar
 consultas posteriores.
 
-La selección definitiva de las APIs dependerá de la investigación
-realizada sobre disponibilidad, documentación, límites de uso y datos
-proporcionados.
+La selección definitiva de las APIs dependerá de factores como:
+
+- Disponibilidad.
+- Documentación.
+- Límites de uso.
+- Calidad de los datos.
+- Cobertura de libros, cómics y manga.
+- Información relacionada con disponibilidad en México.
+- Condiciones de uso y licencias.
 
 ------------------------------------------------------------------------
 
@@ -209,12 +226,34 @@ características de las obras, por ejemplo:
 También se considerará la información proporcionada por el usuario, como
 sus calificaciones y preferencias.
 
-En una etapa posterior podría incorporarse filtrado colaborativo o un
-enfoque híbrido si la cantidad de datos disponibles lo permite.
+El flujo inicial será:
+
+``` text
+Información de las obras
+          │
+          ▼
+    Características
+          │
+          ▼
+Representación de las obras
+          │
+          ▼
+ Comparación / similitud
+          │
+          ▼
+ Recomendaciones
+          │
+          ▼
+       Usuario
+```
 
 La arquitectura busca permitir que el sistema de recomendaciones pueda
-modificarse sin tener que realizar cambios importantes en el resto de
-los componentes.
+modificarse sin realizar cambios importantes en el resto de los
+componentes.
+
+En etapas posteriores podrá investigarse la incorporación de filtrado
+colaborativo o un enfoque híbrido si la cantidad y calidad de los datos
+disponibles lo permiten.
 
 ------------------------------------------------------------------------
 
@@ -257,9 +296,11 @@ Por ejemplo, cuando un usuario solicite recomendaciones:
 2.  El frontend envía una petición al backend.
 3.  El backend obtiene la información necesaria del usuario y de la base
     de datos.
-4.  El sistema de recomendaciones procesa los datos.
-5.  El backend devuelve las recomendaciones.
-6.  El frontend muestra los resultados al usuario.
+4.  El backend obtiene información adicional de las fuentes externas
+    cuando sea necesario.
+5.  El sistema de recomendaciones procesa los datos.
+6.  El backend devuelve las recomendaciones.
+7.  El frontend muestra los resultados al usuario.
 
 ------------------------------------------------------------------------
 
@@ -286,14 +327,14 @@ La estructura puede cambiar conforme se defina el framework de backend y
 aumente la cantidad de funcionalidades.
 
 La idea principal es evitar colocar toda la lógica del sistema en un
-solo archivo.
+solo archivo y mantener separadas las responsabilidades.
 
 ------------------------------------------------------------------------
 
 ## 10. Seguridad
 
 Aunque el proyecto se encuentra inicialmente en una etapa de desarrollo,
-se considerarán algunas medidas básicas de seguridad.
+se considerarán medidas básicas de seguridad.
 
 Entre ellas:
 
@@ -305,6 +346,8 @@ Entre ellas:
 - Manejo controlado de errores.
 - Evitar exponer información interna del servidor mediante mensajes de
   error.
+- Mantener credenciales de APIs y otros servicios fuera del código
+  fuente.
 
 Las medidas específicas dependerán de las tecnologías seleccionadas para
 el backend y el despliegue.
@@ -324,6 +367,7 @@ ejemplo:
 - Un problema de autenticación.
 - Un error de conexión con la base de datos.
 - Un error al consultar una API externa.
+- Un límite de uso alcanzado en una API.
 - Un error interno del servidor.
 
 El frontend deberá mostrar mensajes comprensibles para el usuario sin
@@ -336,13 +380,21 @@ exponer información técnica innecesaria.
 Durante el desarrollo, los diferentes componentes podrán ejecutarse
 localmente.
 
-La arquitectura permitirá posteriormente desplegar el frontend y backend
-en servicios separados o en una infraestructura común, dependiendo de
-las decisiones tomadas durante el proyecto.
+La arquitectura permitirá posteriormente desplegar el frontend, backend
+y base de datos en servicios separados o en una infraestructura común,
+dependiendo de las decisiones tomadas durante el proyecto.
 
 La configuración de producción se definirá posteriormente cuando estén
 seleccionadas las tecnologías definitivas y se tenga una versión
 funcional del sistema.
+
+Se deberán considerar:
+
+- Plataforma de alojamiento.
+- Variables de entorno.
+- Credenciales y secretos.
+- Comunicación entre servicios.
+- Costos y limitaciones de los servicios utilizados.
 
 ------------------------------------------------------------------------
 
@@ -355,23 +407,8 @@ mediante Pull Requests.
 
 El flujo general será:
 
-``` text
-main
- │
- ├── feature/...
- ├── docs/...
- ├── spike/...
- └── fix/...
-        │
-        ▼
-    Pull Request
-        │
-        ▼
-     Revisiones
-        │
-        ▼
-      main
-```
+main │ ├── feature/… ├── docs/… ├── spike/… └── fix/… │ ▼ Pull Request │
+▼ Revisiones │ ▼ Merge │ ▼ main \`\`\`
 
 La documentación del flujo de trabajo y las reglas para Pull Requests se
 encuentran en la guía de colaboración del proyecto.
@@ -382,15 +419,16 @@ encuentran en la guía de colaboración del proyecto.
 
 Las decisiones iniciales de arquitectura son:
 
-| Componente           | Propuesta inicial        |
-|----------------------|--------------------------|
-| Frontend             | HTML, CSS y JavaScript   |
-| Backend              | Python                   |
-| Comunicación         | API HTTP/REST            |
-| Base de datos        | Base de datos relacional |
-| Recomendaciones      | Content-Based Filtering  |
-| Control de versiones | Git + GitHub             |
-| Documentación        | Markdown + Quarto        |
+| Componente                | Propuesta actual                    |
+|---------------------------|-------------------------------------|
+| Frontend                  | HTML, CSS y JavaScript              |
+| Backend                   | Python                              |
+| Comunicación              | API HTTP/REST                       |
+| Base de datos             | Base de datos relacional            |
+| Recomendaciones iniciales | Content-Based Filtering             |
+| Fuentes externas          | APIs integradas mediante el backend |
+| Control de versiones      | Git + GitHub                        |
+| Documentación             | Markdown + Quarto                   |
 
 Estas decisiones representan el estado actual del proyecto y pueden
 modificarse si durante el desarrollo se encuentra una alternativa más
@@ -407,24 +445,45 @@ Todavía quedan algunas decisiones por definir:
 - APIs externas que serán utilizadas.
 - Estructura definitiva de los endpoints.
 - Modelo de datos definitivo.
-- Algoritmo concreto para calcular similitud entre obras.
+- Método concreto para calcular la similitud entre obras.
 - Estrategia para manejar el problema de usuarios nuevos.
 - Tecnología y estrategia definitiva de despliegue.
 - Posible incorporación de filtrado colaborativo.
 
-Estas decisiones se irán definiendo conforme avancen los siguientes
-sprints.
+Estas decisiones se irán definiendo conforme avance la investigación y
+el desarrollo.
 
 ------------------------------------------------------------------------
 
-## 16. Estado del documento
+## 16. Relación con el PRD y RFC
 
-**Estado:** Primera versión.
+Esta arquitectura complementa los documentos de requisitos y decisiones
+técnicas del proyecto.
 
-Esta arquitectura representa una propuesta inicial basada en las
-investigaciones realizadas hasta el momento. Se espera que evolucione
-conforme se implementen los primeros componentes del sistema y se
-obtenga información del desarrollo.
+El **PRD** define principalmente qué debe hacer el sistema y cuáles son
+sus requisitos.
+
+El **RFC** documenta las decisiones y propuestas técnicas generales para
+construir el sistema.
+
+Este documento representa la aplicación de esas decisiones a nivel de
+arquitectura y organización de componentes.
+
+Los tres documentos deberán mantenerse alineados conforme avance el
+proyecto.
+
+------------------------------------------------------------------------
+
+## 17. Estado del documento
+
+**Versión:** 1.1
+
+**Estado:** Arquitectura inicial propuesta.
+
+Esta arquitectura representa el estado actual de la propuesta técnica
+del proyecto. Podrá evolucionar conforme se implementen los primeros
+componentes del sistema, se validen las decisiones técnicas y se obtenga
+información adicional durante el desarrollo.
 
 Las modificaciones importantes de arquitectura deberán documentarse para
 mantener un registro de las decisiones técnicas del proyecto.
