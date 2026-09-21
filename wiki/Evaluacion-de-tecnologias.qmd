@@ -4,7 +4,7 @@
 
 El objetivo de este SPIKE es investigar y comparar diferentes tecnologías que podrían utilizarse para desarrollar Git-Wreckers.
 
-El proyecto consiste en desarrollar un sistema web de recomendación de libros, cómics y manga disponibles en México. Por lo tanto, se necesita definir tecnologías para diferentes partes del sistema, principalmente:
+El proyecto consiste en desarrollar un sistema web de recomendación de libros, cómics y manga disponibles en México. Por lo tanto, se necesitan tecnologías para diferentes partes del sistema, principalmente:
 
 * Frontend.
 * Backend.
@@ -14,7 +14,7 @@ El proyecto consiste en desarrollar un sistema web de recomendación de libros, 
 * Control de versiones.
 * Pruebas y desarrollo.
 
-La intención de esta investigación es conocer las alternativas disponibles y sus características antes de tomar las decisiones técnicas definitivas del proyecto.
+La intención de esta investigación es conocer las alternativas disponibles y establecer una propuesta tecnológica inicial, manteniendo como pendientes aquellas decisiones que requieran pruebas adicionales.
 
 # 2. Criterios de evaluación
 
@@ -29,6 +29,7 @@ Para comparar las diferentes alternativas se consideran los siguientes criterios
 * Posibilidad de ampliar el sistema posteriormente.
 * Disponibilidad de librerías y herramientas.
 * Compatibilidad con las necesidades del sistema de recomendaciones.
+* Complejidad que introduce al proyecto.
 
 También se toma en cuenta que se trata de un proyecto académico, por lo que se busca evitar una complejidad innecesaria.
 
@@ -45,9 +46,9 @@ Se necesita permitir acciones como:
 * Calificar contenidos.
 * Consultar recomendaciones.
 
-## 3.1 HTML, CSS y JavaScript
+# 3.1 HTML, CSS y JavaScript
 
-HTML, CSS y JavaScript permiten construir directamente una aplicación web sin depender obligatoriamente de un framework.
+HTML, CSS y JavaScript permiten construir directamente una aplicación web sin depender obligatoriamente de un framework adicional.
 
 ### Ventajas
 
@@ -63,7 +64,7 @@ HTML, CSS y JavaScript permiten construir directamente una aplicación web sin d
 * La actualización dinámica de diferentes partes de la interfaz puede requerir más código.
 * Algunas funcionalidades comunes deben implementarse manualmente o mediante librerías externas.
 
-## 3.2 React
+# 3.2 React
 
 React es una biblioteca para construir interfaces de usuario mediante componentes.
 
@@ -91,15 +92,17 @@ Aplicación
 
 * Introduce herramientas y conceptos adicionales.
 * Requiere aprender el modelo de componentes y su ecosistema.
-* Puede ser innecesario para una aplicación muy pequeña.
+* Puede ser innecesario para una aplicación pequeña.
 
-## 3.3 Consideración inicial para el frontend
+# 3.3 Consideración inicial para el frontend
 
-HTML, CSS y JavaScript podrían ser suficientes para construir un primer prototipo.
+La propuesta actual es comenzar utilizando HTML, CSS y JavaScript.
 
-React podría considerarse si durante el desarrollo se observa que la cantidad de componentes y lógica de interfaz hace conveniente utilizar una estructura basada en componentes.
+Esta alternativa permite construir el primer prototipo sin introducir dependencias adicionales y es suficiente para implementar las funcionalidades iniciales del sistema.
 
-La decisión definitiva deberá considerar el tamaño esperado del frontend y la experiencia del equipo.
+React puede evaluarse posteriormente si el tamaño y la complejidad de la interfaz justifican utilizar una arquitectura basada en componentes.
+
+Por lo tanto, el uso de React se considera una decisión pendiente y no un requisito inicial del proyecto.
 
 # 4. Backend
 
@@ -127,8 +130,8 @@ Algunas alternativas para construir el backend serían frameworks como Flask o F
 * Sintaxis relativamente sencilla.
 * Amplio ecosistema.
 * Buen soporte para procesamiento de datos.
-* Existen numerosas bibliotecas para sistemas de recomendación y aprendizaje automático.
-* FastAPI permite construir APIs HTTP de forma estructurada.
+* Existen numerosas bibliotecas para procesamiento de datos y sistemas de recomendación.
+* Puede utilizarse para construir APIs HTTP.
 
 ### Limitaciones
 
@@ -156,13 +159,15 @@ Podría utilizarse junto con un framework como Express para construir una API.
 
 # 4.3 Consideración inicial para el backend
 
-Python y Node.js son alternativas viables.
+La tecnología base propuesta actualmente para el backend es **Python**.
 
-Python resulta especialmente interesante para este proyecto debido a que el sistema de recomendaciones puede requerir procesamiento de datos y posiblemente bibliotecas especializadas.
+Esta propuesta se relaciona con las necesidades del sistema de recomendaciones y con la posibilidad de utilizar posteriormente bibliotecas de procesamiento de datos.
 
-Node.js también podría simplificar el desarrollo si se busca utilizar JavaScript en todo el sistema.
+Todavía debe seleccionarse el framework específico que se utilizará para construir la API.
 
-La elección definitiva dependerá de la tecnología seleccionada para las recomendaciones y de la organización general del proyecto.
+Flask y FastAPI son alternativas que pueden evaluarse durante la implementación.
+
+Node.js permanece como una alternativa técnicamente posible, pero la propuesta actual del proyecto se basa en Python.
 
 # 5. Base de datos
 
@@ -191,6 +196,8 @@ Calificación
 - contenido_id
 - calificación
 ```
+
+La arquitectura actual establece una **base de datos relacional como propuesta inicial**.
 
 # 5.1 PostgreSQL
 
@@ -243,17 +250,24 @@ SQLite es una base de datos relacional que almacena la información directamente
 
 # 5.4 Consideración inicial para la base de datos
 
-Las tres alternativas pueden cubrir las necesidades iniciales del proyecto.
+La arquitectura establece actualmente el uso de una **base de datos relacional**, pero todavía no se ha seleccionado el gestor específico.
 
-SQLite podría facilitar el desarrollo de un prototipo, mientras que PostgreSQL o MySQL podrían ser opciones más adecuadas si desde el principio se desea trabajar con una arquitectura orientada a un sistema multiusuario.
+PostgreSQL, MySQL y SQLite son alternativas posibles.
 
-La elección deberá considerar también el entorno de despliegue y la forma en que el backend se comunicará con la base de datos.
+La elección deberá considerar:
+
+* Necesidades de concurrencia.
+* Facilidad de configuración.
+* Integración con Python.
+* Entorno de despliegue.
+* Facilidad de pruebas.
+* Necesidades reales del sistema.
 
 # 6. Comunicación entre componentes
 
 El frontend y backend necesitarán comunicarse mediante HTTP.
 
-Una alternativa sencilla es utilizar una API REST.
+La arquitectura actual propone utilizar una API basada en **REST**.
 
 Un posible flujo sería:
 
@@ -263,7 +277,7 @@ Usuario
    v
 Frontend
    |
-   | HTTP
+   | HTTP / REST
    v
 Backend / API
    |
@@ -297,18 +311,21 @@ De acuerdo con el SPIKE de algoritmos de recomendación, se consideran principal
 * Filtrado colaborativo.
 * Sistema híbrido.
 
+La propuesta inicial es evaluar un enfoque basado en contenido.
+
 Para una primera versión podría utilizarse información como:
 
 * Género.
 * Autor.
 * Categorías.
 * Etiquetas.
-* Calificaciones.
-* Historial de interacción.
+* Descripción.
+* Tipo de contenido.
+* Idioma.
 
-La tecnología utilizada para implementar esta parte dependerá del algoritmo seleccionado.
+Las calificaciones e interacciones de los usuarios podrían incorporarse posteriormente para evaluar un enfoque colaborativo o híbrido.
 
-Si se utiliza Python, podrían evaluarse bibliotecas de procesamiento de datos y aprendizaje automático según las necesidades reales del sistema.
+La disponibilidad en México puede utilizarse como criterio de filtrado del catálogo, dependiendo de la información proporcionada por las fuentes externas.
 
 No se considera necesario introducir aprendizaje automático complejo desde el inicio si una solución basada en similitud de características permite cumplir con los objetivos del proyecto.
 
@@ -384,6 +401,7 @@ Dependiendo de la tecnología seleccionada podrían utilizarse:
 * Pruebas de integración.
 * Pruebas de endpoints.
 * Pruebas manuales de la interfaz.
+* Pruebas del sistema de recomendaciones.
 
 Las herramientas concretas para pruebas deberán definirse junto con la tecnología seleccionada para el backend y frontend.
 
@@ -420,21 +438,22 @@ No se selecciona todavía un proveedor de despliegue específico.
 
 # 13. Comparación general
 
-| Área                 | Alternativas                               |
-| -------------------- | ------------------------------------------ |
-| Frontend             | HTML/CSS/JS, React                         |
-| Backend              | Python, Node.js                            |
-| Base de datos        | PostgreSQL, MySQL, SQLite                  |
-| API                  | REST                                       |
-| Recomendaciones      | Basado en contenido, colaborativo, híbrido |
-| Control de versiones | Git + GitHub                               |
-| Documentación        | Quarto + Markdown                          |
+| Área                 | Alternativas                               | Situación actual                            |
+| -------------------- | ------------------------------------------ | ------------------------------------------- |
+| Frontend             | HTML/CSS/JS, React                         | HTML/CSS/JS propuesto inicialmente          |
+| Backend              | Python, Node.js                            | Python propuesto inicialmente               |
+| Framework backend    | Flask, FastAPI                             | Pendiente                                   |
+| Base de datos        | PostgreSQL, MySQL, SQLite                  | Base relacional propuesta; gestor pendiente |
+| API                  | REST                                       | Propuesto                                   |
+| Recomendaciones      | Basado en contenido, colaborativo, híbrido | Basado en contenido propuesto inicialmente  |
+| Control de versiones | Git + GitHub                               | Adoptado                                    |
+| Documentación        | Quarto + Markdown                          | Adoptado                                    |
 
-Esta tabla representa las alternativas investigadas y no una selección definitiva.
+Esta tabla distingue las decisiones actuales de las alternativas que todavía requieren evaluación.
 
 # 14. Propuesta inicial
 
-Como propuesta inicial se podría considerar una arquitectura con:
+Como propuesta inicial se considera una arquitectura con:
 
 ```text
 Frontend
@@ -445,47 +464,72 @@ HTML / CSS / JavaScript
 Backend
 Python
         |
-        +----------> Base de datos
+        +----------> Base de datos relacional
         |
         +----------> APIs externas
         |
         +----------> Sistema de recomendaciones
 ```
 
-Una posible combinación inicial sería utilizar Python para el backend y una base de datos relacional.
+Esta propuesta mantiene una separación clara entre los principales componentes del sistema.
 
-Para el frontend podría comenzarse con HTML, CSS y JavaScript, evaluando posteriormente si es conveniente introducir React.
+Para el frontend se propone comenzar con HTML, CSS y JavaScript.
 
-Esta propuesta busca mantener una arquitectura sencilla al inicio y permitir que el sistema pueda crecer posteriormente.
+Para el backend se propone utilizar Python, dejando pendiente la selección del framework específico.
 
-La selección final debe realizarse considerando los resultados de las demás investigaciones y las necesidades reales que aparezcan durante la implementación.
+Para la persistencia se propone utilizar una base de datos relacional, dejando pendiente la selección del gestor.
 
-# 15. Decisiones pendientes
+Para la comunicación se propone utilizar HTTP/REST.
+
+Para las recomendaciones se propone evaluar inicialmente el filtrado basado en contenido.
+
+Estas propuestas deberán validarse durante las primeras pruebas de implementación.
+
+# 15. Prueba técnica propuesta
+
+Antes de cerrar las decisiones que permanecen pendientes, se propone realizar pruebas pequeñas con las alternativas principales.
+
+Las pruebas deberán considerar, según corresponda:
+
+* Facilidad de configuración.
+* Facilidad de integración con el resto del sistema.
+* Tiempo necesario para implementar una funcionalidad básica.
+* Facilidad para realizar pruebas.
+* Complejidad de mantenimiento.
+* Compatibilidad con las necesidades del sistema.
+* Consumo de recursos.
+* Disponibilidad de documentación.
+* Facilidad de despliegue.
+
+Para el sistema de recomendaciones también deberá considerarse la capacidad de procesar las características obtenidas de las fuentes de datos seleccionadas.
+
+Los resultados deberán documentarse antes de establecer las decisiones técnicas definitivas.
+
+# 16. Decisiones pendientes
 
 Todavía deben definirse:
 
-* Framework definitivo del frontend.
 * Framework definitivo del backend.
+* Si el frontend requiere React o si HTML/CSS/JavaScript es suficiente.
 * Sistema gestor de base de datos.
-* Librerías para el sistema de recomendaciones.
+* Librerías específicas para el sistema de recomendaciones.
 * Herramientas de pruebas.
 * Entorno de despliegue.
 * Estructura definitiva de la API.
 * Estrategia definitiva para autenticación.
 * Estrategia para manejar las APIs externas.
+* Resultado de las pruebas técnicas de las alternativas.
 
-Estas decisiones deberán documentarse posteriormente en el RFC.
+Estas decisiones deberán documentarse posteriormente en el RFC cuando se tengan los resultados de las investigaciones y pruebas correspondientes.
 
-# 16. Conclusión
+# 17. Conclusión
 
 Existen varias tecnologías capaces de cubrir las necesidades de Git-Wreckers.
 
-Para el frontend se consideran desde las tecnologías web básicas hasta el uso de un framework como React.
+La arquitectura actual propone comenzar con HTML, CSS y JavaScript para el frontend, Python para el backend, HTTP/REST para la comunicación y una base de datos relacional para la persistencia.
 
-Para el backend se consideran principalmente Python y Node.js, mientras que para la base de datos se consideran PostgreSQL, MySQL y SQLite.
+Para el sistema de recomendaciones se propone evaluar inicialmente un enfoque basado en contenido, manteniendo la posibilidad de incorporar posteriormente técnicas colaborativas.
 
-La arquitectura propuesta busca mantener separadas las responsabilidades del frontend, backend, base de datos, APIs externas y sistema de recomendaciones.
+Todavía existen decisiones específicas pendientes, como el framework del backend, el gestor de base de datos, las librerías de recomendación, las herramientas de pruebas y el entorno de despliegue.
 
-Por el momento se propone comenzar con tecnologías relativamente sencillas y dejar la arquitectura preparada para incorporar funcionalidades adicionales conforme avance el proyecto.
-
-Las decisiones definitivas se tomarán después de completar las investigaciones restantes y realizar las primeras pruebas de implementación.
+La selección definitiva deberá realizarse a partir de las pruebas técnicas y de las necesidades que aparezcan durante la implementación del proyecto.
