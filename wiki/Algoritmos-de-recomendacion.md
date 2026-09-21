@@ -1,6 +1,6 @@
 
 
-# title: “SPIKE - Algoritmos de recomendación”
+## title: “SPIKE - Algoritmos de recomendación”
 
 # 1. Objetivo
 
@@ -15,6 +15,10 @@ preferencias de los usuarios.
 La intención de esta investigación es conocer las principales
 alternativas, qué datos necesita cada una, sus ventajas y limitaciones,
 y qué tan adecuadas podrían ser para nuestro proyecto.
+
+Esta investigación presenta una propuesta inicial, pero la decisión
+técnica definitiva dependerá de las pruebas y de la disponibilidad de
+datos del proyecto.
 
 # 2. Contexto del proyecto
 
@@ -36,9 +40,15 @@ Algunos ejemplos de información que podría utilizarse son:
 - Etiquetas.
 - Idioma.
 - Formato.
+- Descripción o sinopsis.
 - Calificaciones de los usuarios.
 - Historial de contenidos consultados o calificados.
-- Disponibilidad en México.
+- Disponibilidad reportada para México.
+
+La disponibilidad en México se considera principalmente como un criterio
+para determinar qué contenidos pueden mostrarse al usuario, mientras que
+las características del contenido pueden utilizarse para calcular
+similitud.
 
 # 3. Alternativas investigadas
 
@@ -66,7 +76,7 @@ En nuestro proyecto podrían utilizarse características como:
 - Autor.
 - Categorías.
 - Etiquetas.
-- Sinopsis.
+- Descripción o sinopsis.
 - Tipo de contenido.
 - Idioma.
 - Editorial.
@@ -105,6 +115,8 @@ En este caso, A y B tendrían características más similares que A y C.
   características del contenido.
 - Es relativamente sencillo de explicar.
 - Puede funcionar desde las primeras interacciones de un usuario.
+- Puede utilizar información disponible desde las fuentes externas de
+  datos.
 
 ## Limitaciones
 
@@ -115,6 +127,8 @@ En este caso, A y B tendrían características más similares que A y C.
   recomendaciones pueden ser poco útiles.
 - Puede ser más difícil recomendar contenido diferente al historial
   conocido del usuario.
+- La calidad de las recomendaciones dependerá de la representación de
+  las características.
 
 # 3.2 Filtrado colaborativo
 
@@ -211,7 +225,23 @@ características seleccionadas por el usuario.
 - La implementación puede ser innecesariamente compleja si el proyecto
   todavía tiene pocos datos.
 
-# 4. Datos necesarios
+# 4. Comparación de alternativas
+
+| Característica | Basado en contenido | Colaborativo | Híbrido |
+|----|----|----|----|
+| Características del contenido | Principal | No necesariamente | Principal |
+| Calificaciones de usuarios | Opcional | Principal | Principal |
+| Cantidad de usuarios necesaria | Baja inicialmente | Mayor | Mayor |
+| Problema de usuario nuevo | Menor | Alto | Menor |
+| Problema de contenido nuevo | Menor | Alto | Menor |
+| Complejidad inicial | Baja/Media | Media | Alta |
+| Dependencia de interacciones | Baja | Alta | Media/Alta |
+| Posibilidad de combinar información | Sí | Sí | Sí |
+
+Esta comparación es cualitativa y deberá complementarse con una prueba
+técnica antes de tomar una decisión definitiva.
+
+# 5. Datos necesarios
 
 Dependiendo del algoritmo seleccionado, el sistema necesitará diferentes
 tipos de información.
@@ -226,7 +256,7 @@ tipos de información.
 | Calificaciones | No necesariamente | Sí | Sí |
 | Historial del usuario | Opcional | Sí | Sí |
 | Usuarios similares | No | Sí | Sí |
-| Disponibilidad | Puede utilizarse | Puede utilizarse | Puede utilizarse |
+| Disponibilidad | Puede utilizarse como filtro | Puede utilizarse como filtro | Puede utilizarse como filtro |
 
 Además de los datos utilizados directamente por el algoritmo, será
 importante almacenar las interacciones de los usuarios.
@@ -246,9 +276,9 @@ Sistema de recomendación
 ```
 
 Estas interacciones podrían utilizarse posteriormente para mejorar las
-recomendaciones.
+recomendaciones e incorporar técnicas colaborativas.
 
-# 5. Problema de Cold Start
+# 6. Problema de Cold Start
 
 Uno de los problemas importantes en los sistemas de recomendación es el
 llamado **cold start**.
@@ -288,10 +318,10 @@ Un contenido nuevo tampoco tendrá calificaciones de usuarios.
 En este caso, sus características pueden utilizarse para compararlo con
 otros contenidos existentes.
 
-Esto hace que el filtrado basado en contenido sea útil como complemento
-del filtrado colaborativo.
+Esto hace que el filtrado basado en contenido pueda ser útil como
+alternativa inicial o como complemento del filtrado colaborativo.
 
-# 6. Consideraciones para Git-Wreckers
+# 7. Consideraciones para Git-Wreckers
 
 Nuestro proyecto tiene algunas características que deben tomarse en
 cuenta antes de elegir una solución definitiva.
@@ -308,17 +338,21 @@ Por otro lado, la información de los libros, cómics y manga puede
 obtenerse de fuentes externas y puede incluir características útiles
 como género, autor, título, descripción y categorías.
 
-Esto hace que un enfoque basado en contenido sea una alternativa viable
-para comenzar.
+Esto hace que un enfoque basado en contenido sea una alternativa inicial
+que puede evaluarse mediante una prueba técnica.
 
 También sería posible utilizar las calificaciones que los usuarios
 generen conforme el sistema tenga más información.
 
-# 7. Propuesta inicial
+La decisión deberá considerar también las características que realmente
+puedan obtenerse de las fuentes seleccionadas y la forma en que dichas
+características puedan normalizarse.
 
-A partir de la investigación realizada, una posibilidad para el proyecto
-es comenzar con un enfoque basado en contenido y dejar preparada la
-estructura para incorporar posteriormente información colaborativa.
+# 8. Propuesta inicial
+
+A partir de la investigación realizada, se propone evaluar inicialmente
+un enfoque basado en contenido y mantener preparada la arquitectura para
+incorporar posteriormente información colaborativa.
 
 Una posible evolución sería:
 
@@ -339,18 +373,40 @@ Tercera etapa
     ↓
 Contenido + comportamiento de usuarios
     ↓
-Sistema híbrido
+Evaluación de un sistema híbrido
 ```
 
 Esta propuesta permite comenzar con una implementación más sencilla y
 evolucionar el sistema conforme aumente la cantidad de datos
 disponibles.
 
-Esta decisión todavía debe validarse junto con los resultados de la
-investigación de fuentes de datos y APIs y la evaluación de tecnologías
-del proyecto.
+La propuesta no constituye todavía una decisión técnica definitiva.
 
-# 8. Posible funcionamiento
+# 9. Prueba técnica propuesta
+
+Antes de implementar el algoritmo definitivo, se propone realizar una
+prueba técnica utilizando una muestra de contenidos obtenidos de las
+fuentes de datos seleccionadas.
+
+La prueba deberá considerar, como mínimo:
+
+- Cantidad de contenidos disponibles.
+- Características disponibles por contenido.
+- Porcentaje de contenidos con información suficiente para calcular
+  similitud.
+- Facilidad para normalizar géneros, categorías y etiquetas.
+- Calidad de las coincidencias entre contenidos similares.
+- Tiempo de cálculo de las recomendaciones.
+- Comportamiento con usuarios que tienen pocas interacciones.
+- Posibilidad de aplicar filtros relacionados con disponibilidad en
+  México.
+- Complejidad de implementación y mantenimiento.
+
+Como resultado de la prueba se deberá determinar si el enfoque basado en
+contenido es suficiente para la primera versión o si es necesario
+modificar la propuesta.
+
+# 10. Posible funcionamiento
 
 De forma general, el sistema podría seguir un flujo como el siguiente:
 
@@ -375,22 +431,31 @@ del contenido        de usuarios
        Cálculo de similitud
                 |
                 v
+       Aplicación de filtros
+                |
+                v
         Lista recomendada
                 |
                 v
              Usuario
 ```
 
-El cálculo exacto de similitud y la forma de combinar las diferentes
-características dependerán de la tecnología y los datos que finalmente
-se seleccionen.
+En una primera versión, el cálculo podría centrarse principalmente en
+las características del contenido.
 
-# 9. Decisiones pendientes
+Las interacciones de los usuarios podrían incorporarse posteriormente
+para evaluar un enfoque colaborativo o híbrido.
+
+El cálculo exacto de similitud y la forma de combinar las diferentes
+características dependerán de los datos y tecnologías que finalmente se
+seleccionen.
+
+# 11. Decisiones pendientes
 
 Todavía quedan algunos aspectos por definir antes de implementar el
 sistema:
 
-- Qué algoritmo o combinación de algoritmos se utilizará.
+- Qué algoritmo o combinación de algoritmos se utilizará finalmente.
 - Qué características de los contenidos tendrán mayor importancia.
 - Cómo se representarán los contenidos.
 - Cómo se calculará la similitud.
@@ -402,11 +467,13 @@ sistema:
 - Qué tecnologías o librerías se utilizarán para implementar el
   algoritmo.
 - Cómo se evaluará la calidad de las recomendaciones.
+- Cómo se aplicarán los filtros relacionados con disponibilidad en
+  México.
 
 Estas decisiones deberán documentarse posteriormente en el RFC cuando se
 tengan los resultados de las investigaciones y pruebas correspondientes.
 
-# 10. Conclusión
+# 12. Conclusión
 
 Existen diferentes alternativas para implementar el sistema de
 recomendaciones de Git-Wreckers.
@@ -419,11 +486,11 @@ exista suficiente información.
 Un sistema híbrido podría combinar ambos enfoques y permitir que el
 sistema evolucione conforme aumenten los datos disponibles.
 
-Por el momento, la propuesta inicial es comenzar con una solución basada
-en contenido y mantener la posibilidad de incorporar posteriormente un
+Por el momento, la propuesta inicial es evaluar una solución basada en
+contenido y mantener la posibilidad de incorporar posteriormente un
 componente colaborativo.
 
 Esta propuesta no se considera una decisión técnica definitiva. La
 elección final deberá realizarse después de evaluar las fuentes de
-datos, las tecnologías disponibles y las necesidades de implementación
-del proyecto.
+datos, las tecnologías disponibles y los resultados de la prueba técnica
+propuesta.
