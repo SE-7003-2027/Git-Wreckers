@@ -1,139 +1,199 @@
----
+
 title: "SPIKE - Fuentes de datos y APIs"
----
-
-**Issue:** #5<br>
-**Estado:** Propuesta para aprobación del equipo<br>
-**Fecha:** 2026-09-11
-
-## 1. Pregunta del spike
-
-¿Qué fuentes gratuitas permiten construir un catálogo inicial de libros, cómics y manga, obtener metadatos útiles para recomendaciones y reportar información de disponibilidad en México sin depender de una plataforma de pago?
-
-## 2. Criterios y restricciones
-
-La solución debe ser gratuita para un proyecto escolar, permitir uso no comercial, contar con documentación pública y ofrecer datos estructurados. También debe respetar licencias, atribución, límites de solicitudes y privacidad.
-
-“Disponibilidad en México” no significa inventario físico garantizado. Solo se mostrará la disponibilidad que una fuente reporte para México, junto con su fuente, fecha de consulta y enlace. No se harán afirmaciones sobre existencias en librerías o vendedores no consultados.
-
-## 3. Fuentes evaluadas
-
-| Fuente | Cobertura | Datos relevantes | Acceso y límites | México | Decisión |
-|---|---|---|---|---|---|
-| Google Books | Libros; cobertura parcial de cómics y manga | Título, autores, descripción, categorías, imagen, ISBN, vista previa, precio y estado de venta | API key gratuita para datos públicos; atribución y enlaces a Google Books obligatorios | `saleInfo` y `accessInfo` pueden solicitarse para `MX` | Principal para libros y disponibilidad reportada |
-| AniList | Manga | Título, sinopsis, géneros, etiquetas, autores, estado, portada y relaciones | API GraphQL pública gratuita; límite normal 90/min, temporalmente 30/min | No reporta venta o inventario en México | Principal para manga |
-| Comic Vine | Cómics | Series, números, personajes, creadores y editoriales | Gratis solo para uso no comercial; API key, atribución y 200 solicitudes por recurso/hora | No reporta venta o inventario en México | Principal para cómics, sujeto a prueba de acceso |
-| Open Library | Libros y ediciones | ISBN, autor, temas, ediciones y portadas | Público y gratuito; 1 solicitud/s sin identificación o 3/s con `User-Agent` y contacto | No reporta disponibilidad comercial en México | Complemento de libros |
-| Jikan | Manga | Datos públicos de MyAnimeList, géneros y recomendaciones | Gratuito y sin autenticación, pero no oficial | No | Respaldo de prototipo; no fuente principal |
-| Gutendex | Clásicos de dominio público | Metadatos y enlaces a e-books de Project Gutenberg | Gratuito; el proyecto recomienda autoalojar para uso continuo | No | Opcional para una sección de clásicos |
-| Mercado Libre | Publicaciones mexicanas | Precio, enlace y estado de publicaciones activas | API de desarrolladores con autenticación; reglas cambiantes | Sí, sobre publicaciones consultadas | Evaluar después; no es catálogo principal |
-
-## 4. Propuesta recomendada
-
-Se propone una integración gradual, sin fuentes de pago:
-
-### MVP: catálogo de las tres categorías
-
-1. **Google Books** para libros, búsqueda general y la información de venta o acceso que reporte para el país `MX`.
-2. **AniList** para manga, por ser una fuente gratuita, pública y especializada en metadatos de manga.
-3. **Comic Vine** para cómics, siempre que la cuenta gratuita y las condiciones de atribución se validen en una prueba técnica.
-
-Cada respuesta conservará `source`, `sourceId`, `sourceUrl` y `retrievedAt`. La interfaz mostrará la fuente junto a la ficha para no atribuir al proyecto datos que pertenecen al proveedor.
-
-### Segunda iteración: calidad del catálogo
-
-4. **Open Library** enriquecerá libros con ISBN, autores, temas, ediciones o portadas faltantes. No se usará como backend masivo: se harán solicitudes bajo demanda, con caché y el encabezado `User-Agent` requerido.
-
-### Alternativas no incluidas inicialmente
-
-- **Jikan** queda como respaldo de investigación o prototipo, no como fuente principal, ya que es una API no oficial que analiza páginas públicas de MyAnimeList.
-- **Gutendex** solo aportaría clásicos de dominio público y no resuelve el catálogo moderno.
-- **Mercado Libre** puede aportar publicaciones activas en México, pero requiere una integración separada, autenticación y validación de sus reglas; no debe bloquear la primera entrega.
-- No se usarán APIs con suscripción, prueba limitada o planes de pago como requisito del proyecto.
-
-## 5. Manejo de disponibilidad en México
-
-Para una obra de Google Books se consultarán los campos `saleInfo` y `accessInfo` con país `MX`. La aplicación podrá mostrar, según exista información:
-
-- “En venta en Google Books para México”.
-- “Gratis en Google Books para México”.
-- “Vista previa disponible en Google Books”.
-- “Google Books no reporta disponibilidad para México”.
-
-No se mostrará “disponible en México” sin nombrar la fuente. En una fase posterior, Mercado Libre podría añadir “se encontraron publicaciones activas en Mercado Libre México”, con enlace, fecha de consulta y sin garantía de stock o precio.
-
-## 6. Datos normalizados requeridos
-
-Los adaptadores de cada API deberán convertir las respuestas al siguiente modelo mínimo:
-
-| Campo | Uso |
-|---|---|
-| `id`, `source`, `sourceId`, `sourceUrl` | Identificar y trazar el dato original |
-| `type` | Distinguir `book`, `comic` o `manga` |
-| `title`, `alternateTitles` | Búsqueda y deduplicación |
-| `authors`, `artists`, `publisher` | Ficha y recomendación |
-| `description`, `genres`, `tags` | Búsqueda y filtrado basado en contenido |
-| `coverUrl`, `language`, `publicationDate` | Presentación y filtros opcionales |
-| `availability` | Fuente, país, estado, precio/enlace si la fuente lo proporciona |
-| `retrievedAt` | Mostrar vigencia y controlar actualización |
-
-Las imágenes, descripciones y enlaces se usarán conforme a las condiciones de cada proveedor. No se descargarán ni redistribuirán capítulos, PDFs, páginas de cómics o manga con derechos de autor.
-
-## 7. Diseño de integración
-
-```text
+SPIKE - Fuentes de datos y APIs
+Issue: #5s
+Estado: Propuesta inicial pendiente de validación técnica
+Fecha: 2026-09-20
+1. Pregunta
+¿Qué fuentes de datos gratuitas pueden utilizarse para construir el catálogo inicial de libros, cómics y manga, obtener metadatos y, cuando sea posible, identificar disponibilidad en México, sin depender inicialmente de plataformas de pago?
+2. Criterios de evaluación
+Las fuentes se evaluarán considerando:
+    • Disponibilidad para un proyecto escolar y no comercial.
+    • Documentación pública.
+    • Acceso mediante API o datos estructurados.
+    • Calidad y cantidad de metadatos.
+    • Cobertura de libros, cómics o manga.
+    • Posibilidad de identificar disponibilidad para México.
+    • Límites de uso y frecuencia de solicitudes.
+    • Requisitos de autenticación.
+    • Licencias, atribución y condiciones de uso.
+    • Privacidad y manejo de información.
+    • Facilidad de integración con el backend.
+El hecho de que una fuente sea gratuita no significa que sus datos puedan utilizarse sin restricciones. Cada proveedor deberá revisarse de acuerdo con sus propios términos, documentación y límites de uso.
+3. Fuentes evaluadas
+Fuente	Contenido	Datos disponibles	Acceso / condiciones	México	Decisión inicial
+Google Books	Libros y parte de cómics/manga	Título, autores, descripción, categorías, portada, ISBN, preview, información de venta	API con clave; revisar atribución y condiciones de uso	Sí, mediante información de venta/acceso por país cuando esté disponible	Fuente principal para libros
+AniList	Manga y anime	Títulos, autores, géneros, etiquetas, descripción, fechas, portadas	API GraphQL pública; revisar límites y condiciones	No proporciona inventario o venta específica de México	Fuente principal para manga
+Comic Vine	Cómics	Series, números, personajes, autores, artistas y editoriales	API con clave; revisar condiciones de uso, atribución y límites	No proporciona disponibilidad comercial específica para México	Candidata para cómics, pendiente de prueba técnica
+Open Library	Libros y ediciones	ISBN, autores, temas, ediciones y portadas	Servicio público; uso de bajo volumen, con caché y User-Agent identificable	No proporciona disponibilidad comercial específica para México	Complemento
+Jikan	Manga	Títulos, autores, géneros, información de publicación y portadas	API gratuita sin autenticación; servicio no oficial basado en MyAnimeList	No proporciona disponibilidad comercial en México	Alternativa o respaldo para prototipo
+Gutendex	Obras de dominio público	Títulos, autores, idiomas, formatos y enlaces	API pública	No proporciona disponibilidad comercial	Fuente opcional para clásicos
+Mercado Libre	Libros y otros productos disponibles en México	Precio, enlace y estado de publicaciones	API y autenticación; revisar condiciones de uso	Sí, mediante publicaciones disponibles	Evaluar posteriormente
+3.1 Google Books
+Se propone como fuente principal para libros debido a la cantidad de metadatos disponibles y a que su información de venta y acceso puede incluir datos relacionados con un país específico.
+Los campos de venta y acceso deberán interpretarse de acuerdo con la información que realmente proporcione la API para México. El sistema no deberá asumir que un libro está disponible en México solamente porque exista en Google Books.
+3.2 AniList
+Se propone como fuente principal para manga.
+Su API GraphQL permite obtener información estructurada sobre títulos, autores, géneros, etiquetas, fechas, descripciones y portadas.
+El límite de solicitudes deberá respetarse y mantenerse configurable dentro del adaptador. La documentación de la API indica un límite normal de solicitudes por minuto, por lo que se deberá utilizar un limitador de solicitudes y caché.
+3.3 Comic Vine
+Comic Vine es una fuente candidata para obtener información especializada sobre cómics.
+Sin embargo, antes de considerarla parte definitiva del MVP se deberá realizar una prueba técnica para comprobar:
+    • Acceso actual a la API.
+    • Obtención de una clave.
+    • Funcionamiento de las solicitudes.
+    • Cobertura de obras relevantes.
+    • Calidad de los metadatos.
+    • Límites de solicitudes.
+    • Condiciones de uso y atribución.
+Si la prueba técnica no resulta viable, se podrá utilizar temporalmente Google Books para cubrir parte de la información de cómics mientras se investiga otra fuente.
+3.4 Open Library
+Open Library se considera una fuente complementaria para libros y ediciones.
+No se deberá utilizar como fuente para realizar consultas masivas. Se propone utilizarla únicamente cuando sea necesario complementar información, empleando caché y respetando los límites establecidos por el servicio.
+También se deberá identificar correctamente al cliente mediante un User-Agent apropiado y, cuando corresponda, información de contacto.
+3.5 Jikan
+Jikan se considera una alternativa para obtener información de manga durante el desarrollo del prototipo.
+Al ser una API no oficial basada en datos de MyAnimeList, se deberá considerar como una dependencia de respaldo y no como una garantía de disponibilidad permanente.
+3.6 Gutendex
+Gutendex puede utilizarse opcionalmente para incorporar obras de dominio público, principalmente literatura clásica.
+No se considera una fuente principal del catálogo, sino una posible fuente adicional para pruebas o contenido que pueda utilizarse sin depender de disponibilidad comercial.
+3.7 Mercado Libre
+Mercado Libre puede resultar útil posteriormente para obtener información relacionada con publicaciones disponibles en México.
+Sin embargo, no se propone como fuente principal del catálogo porque una publicación comercial no necesariamente representa disponibilidad permanente de una obra.
+Su posible integración se evaluará posteriormente, considerando autenticación, límites, condiciones de uso y disponibilidad de la API.
+4. Propuesta inicial
+Para la primera etapa del proyecto se propone trabajar con:
+MVP
+    • Google Books: fuente principal para libros.
+    • AniList: fuente principal para manga.
+    • Comic Vine: candidata para cómics, condicionada a una prueba técnica.
+Segunda iteración
+    • Open Library: complemento para libros y ediciones.
+    • Utilización de caché para evitar consultas repetitivas.
+    • Consultas de bajo volumen y respetando los límites del servicio.
+Alternativas
+    • Jikan: respaldo para información de manga durante el prototipo.
+    • Gutendex: fuente opcional para obras de dominio público.
+    • Mercado Libre: posible fuente posterior para información comercial en México.
+Esta propuesta no se considera definitiva hasta realizar las pruebas técnicas y validar las condiciones de uso de cada fuente.
+5. Disponibilidad en México
+La disponibilidad para México deberá manejarse de manera conservadora.
+Cuando una fuente proporcione información específica para México, el sistema deberá almacenar:
+    • Fuente de la información.
+    • Fecha de consulta.
+    • Enlace correspondiente.
+    • Estado proporcionado por la fuente.
+El sistema no deberá afirmar que una obra está disponible en México si la fuente no proporciona evidencia suficiente.
+Por ejemplo, si Google Books proporciona información de venta o acceso para México, se podrá mostrar dicha información indicando claramente la fuente.
+En caso de utilizar Mercado Libre posteriormente, la existencia de una publicación deberá interpretarse como una referencia a una publicación disponible en ese momento y no como garantía permanente de disponibilidad.
+6. Modelo de datos normalizado
+Para evitar que el sistema dependa directamente de la estructura de una API específica, se propone normalizar la información obtenida.
+Campos iniciales:
+    • id
+    • source
+    • sourceId
+    • sourceUrl
+    • type
+    • title
+    • alternateTitles
+    • authors
+    • artists
+    • publisher
+    • description
+    • genres
+    • tags
+    • coverUrl
+    • language
+    • publicationDate
+    • availability
+    • retrievedAt
+La estructura podrá modificarse cuando se diseñe el modelo definitivo de la base de datos.
+7. Integración propuesta
+El flujo general será:
 Usuario
-  ↓
-Backend de Git-Wreckers
-  ↓
-Adaptador por fuente → limitador y caché → API externa
-  ↓
-Normalizador y deduplicador
-  ↓
-Catálogo mostrado y perfil de contenido para recomendaciones
-```
+   |
+   v
+Frontend
+   |
+   v
+Backend
+   |
+   +--> Adaptador Google Books
+   |
+   +--> Adaptador AniList
+   |
+   +--> Adaptador Comic Vine
+   |
+   v
+Limitador de solicitudes / Caché
+   |
+   v
+API externa
+   |
+   v
+Normalizador
+   |
+   v
+Deduplicador
+   |
+   v
+Catálogo
+   |
+   v
+Perfil / Sistema de recomendaciones
+Cada fuente deberá manejarse mediante un adaptador independiente para evitar que los detalles de una API específica se propaguen al resto del sistema.
+Las claves de API, cuando sean necesarias, deberán mantenerse únicamente en el backend mediante variables de entorno.
+El frontend no deberá contener claves privadas.
+La falla de una fuente externa tampoco debería impedir que el sistema continúe utilizando las demás fuentes disponibles.
+8. Prueba técnica
+Antes de implementar definitivamente los adaptadores se propone realizar una prueba técnica.
+Como mínimo, se deberán consultar aproximadamente 10 obras por categoría:
+    • 10 libros.
+    • 10 cómics.
+    • 10 mangas.
+Para cada fuente se deberá registrar:
+    • Cobertura.
+    • Calidad de los datos.
+    • Cantidad de metadatos disponibles.
+    • Idioma.
+    • Calidad de portadas.
+    • Disponibilidad de identificadores como ISBN.
+    • Información de disponibilidad para México, cuando exista.
+    • Facilidad de integración.
+    • Límites de solicitudes.
+    • Requisitos de autenticación.
+    • Condiciones de uso.
+Comic Vine permanecerá como candidato para el MVP únicamente si la prueba confirma que su acceso y condiciones son adecuados para el proyecto.
+Si una fuente no resulta viable, se deberá documentar la razón y buscar una alternativa antes de considerarla parte de la implementación definitiva.
+9. Riesgos y mitigaciones
+Riesgo	Mitigación
+API externa no disponible	Utilizar varias fuentes y adaptadores independientes
+Cambios en una API	Encapsular cada fuente en su propio adaptador
+Límites de solicitudes	Implementar rate limiting y caché
+Datos incompletos	Combinar varias fuentes y normalizar información
+Información incorrecta de disponibilidad	Mostrar siempre la fuente y fecha de consulta
+API requiere clave	Mantener claves únicamente en el backend
+Cambio en condiciones de uso	Revisar periódicamente la documentación del proveedor
+Duplicados entre fuentes	Utilizar identificadores como ISBN y reglas de deduplicación
+Dependencia de una fuente no oficial	Mantener alternativas y documentar la dependencia
+10. Decisión solicitada al equipo
+Se solicita validar inicialmente:
+    1. Utilizar Google Books como fuente principal para libros.
+    2. Utilizar AniList como fuente principal para manga.
+    3. Evaluar Comic Vine como candidata para cómics mediante una prueba técnica.
+    4. Utilizar Open Library como fuente complementaria y de bajo volumen.
+    5. Mantener Jikan como alternativa para el prototipo.
+    6. Considerar Gutendex como fuente opcional para obras de dominio público.
+    7. Dejar Mercado Libre para una etapa posterior.
+    8. Mostrar la disponibilidad en México únicamente cuando exista información proporcionada por la fuente.
+    9. Realizar una prueba técnica antes de implementar definitivamente los adaptadores.
+11. Fuentes consultadas
+    • Google Books API Documentation.
+    • Open Library API Documentation.
+    • AniList API Documentation.
+    • Comic Vine API Documentation.
+    • Jikan API Documentation.
+    • Gutendex API Documentation.
+    • Mercado Libre Developers Documentation.
+La información de límites, autenticación, disponibilidad y condiciones deberá verificarse nuevamente antes de implementar cada integración, ya que puede cambiar con el tiempo.
 
-El frontend nunca guardará API keys privadas. Las claves y cuentas gratuitas, cuando sean necesarias, se configurarán como variables de entorno en el backend. Cada adaptador deberá tolerar que una fuente falle, responder lento o alcance su límite sin romper los resultados de otras fuentes.
-
-## 8. Prueba técnica antes de implementar
-
-Antes de aprobar definitivamente una fuente, el equipo debe ejecutar una prueba con al menos 10 obras por categoría y registrar:
-
-- Cobertura: cuántas obras devuelve y si la categoría es correcta.
-- Calidad: título, autores, sinopsis, géneros/etiquetas, portada y enlace.
-- Idioma: presencia de obras o metadatos en español cuando existan.
-- Disponibilidad: presencia y precisión de datos de `MX` en Google Books.
-- Operación: autenticación, encabezados, latencia, límite recibido y comportamiento de errores.
-- Cumplimiento: atribución visible, enlaces requeridos y política de caché de cada fuente.
-
-Comic Vine solo se mantiene en el MVP si la prueba confirma que es posible crear una cuenta, obtener la clave y cumplir sus condiciones sin costo. Si falla, Google Books cubrirá cómics de forma temporal y la tarea de buscar una fuente de cómics seguirá abierta.
-
-## 9. Riesgos y mitigaciones
-
-| Riesgo | Mitigación |
-|---|---|
-| Una fuente cambia, falla o impone límites | Adaptadores independientes, caché, reintentos con espera y resultados parciales. |
-| Datos duplicados entre fuentes | Normalizar título, tipo, autor y, cuando exista, ISBN; conservar todas las procedencias. |
-| Metadatos incompletos | Mostrar campos faltantes y no inventar información; usar Open Library como complemento de libros. |
-| Datos de venta desactualizados | Mostrar proveedor y fecha de consulta; no prometer inventario ni precio. |
-| Incumplimiento de condiciones | Guardar una ficha de atribución por fuente y revisar sus términos antes de publicar. |
-| Contenido para adultos en manga | Aplicar filtro de contenido adulto cuando la fuente lo permita y documentar la política del proyecto. |
-
-## 10. Decisión solicitada al equipo
-
-Se solicita aprobar:
-
-1. Google Books, AniList y Comic Vine como fuentes gratuitas del MVP.
-2. Open Library como complemento de libros en una segunda iteración.
-3. La redacción “información reportada por [fuente] para México” en lugar de una garantía de disponibilidad.
-4. Una prueba técnica de cobertura y términos antes de programar los adaptadores.
-
-## 11. Fuentes
-
-- Google Books API: [visión general](https://developers.google.com/books/docs/overview), [uso y API key](https://developers.google.com/books/docs/v1/using), [campos de venta y acceso](https://developers.google.com/books/docs/v1/reference/volumes?hl=es-419), [atribución](https://developers.google.com/books/branding) y [términos](https://developers.google.com/books/terms).
-- Open Library: [API, reglas de uso y límites](https://openlibrary.org/developers/api), [Search API](https://openlibrary.org/dev/docs/api/search) y [licenciamiento](https://openlibrary.org/developers/licensing).
-- AniList: [API pública](https://docs.anilist.co/guide/introduction), [GraphQL](https://docs.anilist.co/guide/graphql/) y [límites](https://docs.anilist.co/guide/rate-limiting).
-- Comic Vine: [API, términos, atribución y límites](https://comicvine.gamespot.com/api/).
-- Jikan: [sitio y naturaleza no oficial](https://jikan.moe/).
-- Gutendex: [proyecto y API](https://github.com/garethbjohnson/gutendex).
-- Mercado Libre: [búsqueda de publicaciones](https://developers.mercadolibre.com.mx/es_mx/items-y-busquedas).
