@@ -221,12 +221,17 @@ Los cambios deben pasar por un Pull Request antes de integrarse a
 Actualmente se requieren:
 
 - Pull Request.
-- 3 aprobaciones.
+- 1 aprobacion.
 - Resolución de conversaciones de revisión.
 - Aprobación de la versión más reciente del cambio.
 
-Esto permite que los cambios sean revisados antes de formar parte de la
-rama principal.
+El revisor del Pull Request se asignará de acuerdo con la disponibilidad
+del integrante del equipo. La asignación de un revisor no implica que el
+Pull Request pueda integrarse automáticamente; para cumplir la
+protección de main deben obtenerse las aprobaciones requeridas por la
+configuración del repositorio. Las reglas de protección de main tienen
+como objetivo asegurar que los cambios sean revisados antes de formar
+parte de la rama principa
 
 ------------------------------------------------------------------------
 
@@ -454,29 +459,13 @@ git push -u origin tipo/nombre-de-la-tarea
 
 Después:
 
-``` text
-Crear Pull Request
-       ↓
-Seleccionar main como destino
-       ↓
-Agregar revisores
-       ↓
-Esperar revisiones
-       ↓
-Resolver comentarios
-       ↓
-Obtener aprobaciones
-       ↓
-Merge
-       ↓
-Eliminar rama si ya no es necesaria
-```
-
-------------------------------------------------------------------------
+Crear Pull Request ↓ Seleccionar main como destino ↓ Asignar revisores
+disponibles ↓ Esperar revisiones ↓ Resolver comentarios ↓ Obtener las
+aprobaciones requeridas ↓ Merge ↓ Eliminar rama si ya no es necesaria —
 
 ## 18. Estado del documento
 
-**Estado:** Primera versión.
+**Estado:** Versión 1.1.
 
 Esta guía puede actualizarse conforme se establezcan nuevas reglas de
 colaboración o se incorporen nuevas herramientas al proyecto.
