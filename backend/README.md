@@ -17,6 +17,9 @@ backend/
 └── README.md
 ```
 
-Las decisiones del framework de Python, gestor de base de datos, endpoints y
-fuentes externas siguen pendientes en el RFC. Cada parte deberá desarrollarse
-en una Issue pequeña, con su rama, pruebas y Pull Request correspondiente.
+Python se establece como la tecnología base del backend y se propone utilizar
+una base de datos relacional. Las fuentes externas para el catálogo inicial
+ya fueron definidas en el SPIKE correspondiente. Todavía están pendientes la
+selección del framework específico de Python, el gestor de base de datos y la
+definición de los endpoints. Cada parte deberá desarrollarse en una Issue
+pequeña, con su rama, pruebas y Pull Request correspondiente.
